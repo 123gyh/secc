@@ -1,9 +1,27 @@
-div{
-	background:red;
-	
+*{
+	-webkit-bax-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border;
+	margin:0;
+	padding:0;
+	list-style:none;
 }
 
+.warp{
+	width:1349px;
+	height:20px;
+	margin:0 auto;
+	background-color:red;		
+}
 
-body {
-	background:#ddd;
+header{
+    width: 100%;
+    background: #fff;
+    height: 89px;
+    line-height: 89px;
+    position: fixed;
+    border-bottom: 1px solid #F5F5F5;
+    top: 0px;
+    left: 0px;
+    z-index: 7999;
 }
