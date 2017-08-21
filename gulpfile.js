@@ -11,7 +11,7 @@ gulp.task('serve', ['scss'], function() {
     });
 
     gulp.watch("assets/scss/*.scss", ['scss']);
-    gulp.watch("app/*.html").on('change', reload);
+    gulp.watch("./*.html").on('change', reload);
 });
 
 // scss编译后的css将注入到浏览器里实现更新
@@ -22,4 +22,4 @@ gulp.task('scss', function() {
         .pipe(reload({ stream: true }));
 });
 
-gulp.task('default', ['server']);
+gulp.task('default', ['serve']);

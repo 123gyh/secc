@@ -1,23 +1,778 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<title>Arting365 - 创意门户网站 - 打开Arting365，连接好设计！</title>
-	<!-- 页面重置样式库 -->
-	<link rel="stylesheet" href="assets/css/reset.css">
-	<!-- 页面图标css样式 -->
-	<link rel="stylesheet" href="http://at.alicdn.com/t/font_wi21yl3avw6fxbt9.css">
-	<!-- 选项卡的小图标 -->
-	<link rel="shortcut icon" type="image/x-icon" href="assets/images/tou1.png" />
-	<!-- 自己的css样式库 -->
-	<link rel="stylesheet" href="assets/css/index.css">
+    <meta charset="UTF-8">
+    <title>Arting365 - 创意门户网站 - 打开Arting365，连接好设计！</title>
+    <!-- 页面重置样式库 -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <!-- 页面图标css样式 -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_389081_zhsin993fp0t3xr.css">
+    <!-- 选项卡的小图标 -->
+    <link rel="stylesheet" type="image" href="assets/images/tou1.png" />
+    <!-- 自己的css样式库 -->
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body>
-	<div class="warp">
-		<header>
-			
-		</header>
-	</div>
+    <div class="warp">
+        <!-- 导航栏 start -->
+        <header>
+            <div class="header-main">
+                <a class="header-log" href="http://arting365.com"><img href="http://arting365.com/assets/img/logo.svg" src="assets/images/log.png" width="189" height="47" alt=""></a>
+                <div class="header-nav">
+                    <ul>
+                        <li class="wenzhang"><a>文章分类</a><i class="iconfont icon-xiajiantou"></i></li>
+                        <li><a>特色频道</a><i class="iconfont icon-xiajiantou"></i>
+                            <li>
+                                <li><a>专栏</a><i class="iconfont icon-xiajiantou"></i></li>
+                                <li><a>灵感</a><i class="iconfont icon-xiajiantou"></i></li>
+                                <li><a>创意擂台</a></li>
+                                <li><a>培训</a></li>
+                                <li><a>时光机</a></li>
+                                <li><a>我要投稿</a></li>
+                    </ul>
+                </div>
+                <!-- 搜索框start -->
+                <div id="header-seach">
+                    <div class="find">
+                        <input type="text" placeholder="搜索">
+                        <i class="iconfont fd icon-fangdajing"></i>
+                    </div>
+                    <img src="assets/images/a.png" alt="" class="find-img">
+                </div>
+                <!-- 搜索框end -->
+            </div>
+            <!-- 二级菜单start -->
+            <!-- 第一个 -->
+            <div class="tanchuang">
+                <img class="sanjiao" src="assets/images/sanjiao.png" alt="">
+                <ul class="list">
+                    <li class="aaa" data-index="0">设计
+                        <ul class="actives first-ul">
+                            <li>
+                                <a href="#"><img src="assets/images/s1.jpg" alt=""></a>
+                                <h4>MTV 音乐录影带大奖（VMA）更换新 LOG</h4>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/s2.jpg" alt=""></a>
+                                <h4>leslie nooteboom 推出灯饰投影 让你的房间充满阳光
+                                </h4>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/s3.png" alt=""></a>
+                                <h4>2018 LEXUS 雷克萨斯全球设计大奖</h4>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-index="1">品牌
+                        <ul class="actives">
+                            <li>
+                                <a href="#"><img src="assets/images/p1.png" alt=""></a>
+                                <h4>阿里巴巴旗下大数据营销平台“阿里妈妈”品牌升级更换新 LOGO</h4>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/p2.jpg" alt=""></a>
+                                <h4>澳大利亚百货连锁店 BIG W 更换新 LOGO</h4>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/p3.jpg" alt=""></a>
+                                <h4>美国数字有线电视频道 Oxygen 更换新 LOGO 犯罪气息十足</h4>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-index="2">商业
+                        <ul class="actives">
+                            <li>
+                                <a href="#"><img src="assets/images/s1.png" alt="">
+                                    <h4>爱是永恒~ 将亲人的骨灰 3D 打印成独特纪念品</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/sy2.jpg" alt="">
+                                    <h4>智品链 - 第一家文创生态链将在上海区块链国际峰会发布</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/sy3.jpg" alt="">
+                                    <h4>共享经济其实很“自私”，区块链技术想给它一条出路</h4></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-index="3">产品
+                        <ul class="actives">
+                            <li>
+                                <a href="#"><img src="assets/images/c1.jpg" alt="">
+                                    <h4>sunscreenmist 与 snappyscreen 自动防晒喷雾机专利之争</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/c2.jpg" alt="">
+                                    <h4>ofek 有形音乐 ReSound 音响与录音设备合二为一</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/c3.jpg" alt="">
+                                    <h4>jorge garaje 嵌丝玻璃桌 尽显复古之美</h4></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-index="4">生活
+                        <ul class="actives">
+                            <li>
+                                <a href="#"><img src="assets/images/sh1.jpg" alt="">
+                                    <h4>彩虹信号灯亮相洛杉矶骄傲周</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/sh2.jpg" alt="">
+                                    <h4>以《猫和老鼠》动画片命名的度假乐园</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/sh3.png" alt="">
+                                    <h4>是什么让死亡公路变成了最安全的公路？</h4></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li data-index="5">交互
+                        <ul class="actives">
+                            <li>
+                                <a href="#"><img src="assets/images/jh1.jpg" alt="">
+                                    <h4>交互式字体地图 视觉设计新帮手</h4></a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/jh2.jpg" alt="">
+                                    <h4>会自动贴膜的机器人来了，祖传贴膜的小哥们就要失业了？！</h4>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"><img src="assets/images/jh3.jpg" alt="">
+                                    <h4>科技改变世界：一张由塑料和织物构成的可编程的“纸”</h4></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- 第二个 -->
+            <div class="tanchuang2">
+                <div class="sanjiao1"><img src="assets/images/sanjiao.png" alt=""></div>
+                <ul>
+                    <li class="tan1">
+                        <a href="#" class="yanjing">
+                            <span>Gallery</span>
+                            <span>灵感图库</span>
+                            <small>全球创意图片搜索</small>
+                        </a>
+                    </li>
+                    <li class="tan1">
+                        <a href="#" class="yanjing">
+                            <span>A\STREAM</span><span>流派</span>
+                            <small>每天一个好视频</small></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 第三个 -->
+            <div class="tanchuang3">
+                <div class="sanjiao2"><img src="assets/images/sanjiao.png" alt=""></div>
+                <ul>
+                    <li><a href="#">[赛事]</a></li>
+                    <li><a href="#">[展览]</a></li>
+                    <li><a href="#">[培训]</a></li>
+                    <li><a href="#">[招聘]</a></li>
+                </ul>
+            </div>
+            <!-- 第四个 -->
+            <div class="tanchuang4">
+                <div class="sanjiao3"><img src="assets/images/sanjiao.png" alt=""></div>
+                <ul>
+                    <li><a href="#">灵感</a></li>
+                    <li><a href="#">图库</a></li>
+                    <li><a href="#">精美画廊</a></li>
+                </ul>
+            </div>
+            <!-- 二级菜单end -->
+        </header>
+        <!-- 导航栏结束 -->
+        <!-- 轮播图start -->
+        <div id="container">
+            <ul class="lb">
+                <li><img src="./assets/images/l1.jpg" alt=""></li>
+                <li><img src="./assets/images/l2.jpg" alt=""></li>
+                <li><img src="./assets/images/l3.jpg" alt=""></li>
+                <li><img src="./assets/images/l4.jpg" alt=""></li>
+                <li><img src="./assets/images/l5.jpg" alt=""></li>
+                <li><img src="./assets/images/l6.jpg" alt=""></li>
+            </ul>
+            <!--    <ol>
+
+            <li class="active">1</li>
+            <li>.</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ol> -->
+            <div class="left">左</div>
+            <div class="right">右</div>
+        </div>
+        <!-- 轮播图end -->
+        <!-- 主体标题 主题导航 start  今日-->
+        <div class="title">
+            <h2>COLUMNS 栏目</h2></div>
+        <div class="main-nav">
+            <ul>
+                <li>
+                    <a href="#">商业</a>
+                </li>
+                <li>
+                    <a href="#">设计</a>
+                </li>
+                <li>
+                    <a href="#">产品</a>
+                </li>
+                <li>
+                    <a href="#">品牌</a>
+                </li>
+                <li>
+                    <a href="#">生活</a>
+                </li>
+                <li>
+                    <a href="#">交互</a>
+                </li>
+                <li>
+                    <a href="#">访谈</a>
+                </li>
+                <li>
+                    <a href="#">好物</a>
+                </li>
+                <li><a href="#">每日新鲜</a></li>
+            </ul>
+        </div>
+        <div class="title">
+            <h2>NEWS TODAY 今日</h2>
+        </div>
+        <div class="newday">
+            <ul>
+                <li>
+                    <p>
+                        <a href="#"><img src="assets/images/jin1.jpg" alt=""></a>
+                        <a href="#" class="more"></a>
+                    </p>
+                    <h3><a href="#">2018 狗年全球吉庆生肖设计大赛</a></h3>
+                    <h4><a href="#"><i class="iconfont icon-xinxi"></i>352</a>
+                    <a href="#"><i class="iconfont icon-yanjing
+                    "></i>0</a>
+                    <span>阿琪玛佳 • 4分钟前</span></h4>
+                    <h5>设计</h5>
+                </li>
+                <li>
+                    <p>
+                        <a href="#"><img src="assets/images/jin2.jpg" alt=""></a>
+                        <a href="#" class="more"></a>
+                    </p>
+                    <h3><a href="#"> 能停超过万辆！世界上最大的自行车停车库在荷兰开幕</a></h3>
+                    <h4><a href="#"><i class="iconfont icon-xinxi"></i>300</a>
+                    <a href="#"><i class="iconfont icon-yanjing
+                    "></i>0</a>
+                    <span>阿琪玛佳 • 3小时前</span></h4>
+                    <h5>商业</h5>
+                </li>
+                <li>
+                    <p>
+                        <a href="#"><img src="assets/images/jin3.jpg" alt=""></a>
+                        <a href="#" class="more"></a>
+                    </p>
+                    <h3><a href="#"> 将美带入生活 – 可以自己制作的精致混凝土器物 / 造么工作室</a></h3>
+                    <h4><a href="#"><i class="iconfont icon-xinxi"></i>254</a>
+                    <a href="#"><i class="iconfont icon-yanjing
+                    "></i>0</a>
+                    <span>阿琪玛佳 • 1小时前</span></h4>
+                    <h5>好物</h5>
+                </li>
+                <li>
+                    <p>
+                        <a href="#"><img src="assets/images/jin4.jpg" alt=""></a>
+                        <a href="#" class="more"></a>
+                    </p>
+                    <h3><a href="#"> 美国诗歌基金会（Poetry FoundAtion）全新品牌 LOGO</a></h3>
+                    <h4><a href="#"><i class="iconfont icon-xinxi"></i>284</a>
+                    <a href="#"><i class="iconfont icon-yanjing
+                    "></i>0</a>
+                    <span>阿琪玛佳 • 1小时前</span></h4>
+                    <h5>设计</h5>
+                </li>
+            </ul>
+        </div>
+        <!-- 主体标题 主题导航 今日 end -->
+        <!-- 内容2 图片 -->
+        <div class="main-tu">
+            <div class="tuleft">
+                <a href="#"><img src="assets/images/tu1.jpg" alt=""></a>
+                <a href="#"></a>
+                <div class="tumore"></div>
+            </div>
+            <div class="turight">
+                <ul>
+                    <li>
+                        <a href=""><img src="assets/images/tu2.jpg" alt=""></a>
+                        <h3>
+                            <a class="say" href="#">jeeyoung lee handcrafts intricate and imaginative landscapes in her room-sized studio</a>
+                            <a class="say" href="#">
+                                for nearly ten years, korean artist jeeyoung lee has been turning her 4-square-meter studio into an alternate universe. 
+                            </a>
+                            <span><i class="iconfont icon-yanjing
+                    "></i><b>3652</b><i class="iconfont icon-xinxi"></i><b>0</b></span>
+                        </h3>
+                    </li>
+                    <li>
+                        <a href=""><img src="assets/images/tu3.jpg" alt=""></a>
+                        <h3>
+                                <a class="say" href="#"> HE IS A DRAGON 他是一条龙概念草图故事</a>
+                            <a class="say" href="#">
+                            概念草图 
+                            </a>
+                            <span><i class="iconfont icon-yanjing
+                    "></i><b>362</b><i class="iconfont icon-xinxi"></i><b>0</b></span>
+                        </h3>
+                    </li>
+                    <li>
+                        <a href=""><img src="assets/images/tu4.jpg" alt=""></a>
+                        <h3>        <a class="say" href="#">Various scenes - Voxel art</a>
+                            <a class="say" href="#">
+                            Some various scenes I made in voxels. 
+                            </a>
+                            <span><i class="iconfont icon-yanjing
+                    "></i><b>258</b><i class="iconfont icon-xinxi"></i><b>0</b></span></h3>
+                    </li>
+                    <li>
+                        <a href=""><img src="assets/images/tu5.jpg" alt=""></a>
+                        <h3>        <a class="say" href="#">inside the archives: storage at the smithsonian natural history museum</a>
+                            <a class="say" href="#">
+                            over the course of his decades at the smithsonian  
+                            </a>
+                            <span><i class="iconfont icon-yanjing
+                    "></i><b>698</b><i class="iconfont icon-xinxi"></i><b>0</b></span></h3>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 内容图片end -->
+        <!-- 视频start -->
+        <div class="liupai">
+            <h2>STREAM 流派 
+            <span>每天一个好视频</span></h2>
+        </div>
+        <div class="shipin">
+            <div class="shipinl">
+                <div class="video1">
+                    <video src=""></video>
+                </div>
+            </div>
+            <div class="shipinr">
+                <ul class="sp-list">
+                    <li>
+                        <img src="assets/images/shipin1.jpg" alt="">
+                        <i class="iconfont fd icon-bofang"></i>
+                        <span><a href="#">艺术设计</a>德國搞笑創意廣告</span>
+                        <h5></h5>
+                    </li>
+                    <li>
+                        <img src="assets/images/shipin2.jpg" alt="">
+                        <i class="iconfont fd icon-bofang"></i>
+                        <span><a href="#">影音视觉</a>Wonder Woman - Extended Featurette (2017)</span>
+                        <h5></h5>
+                    </li>
+                    <li>
+                        <img src="assets/images/shipin3.jpg" alt="">
+                        <i class="iconfont fd icon-bofang"></i>
+                        <span><a href="#">影音视觉</a>Despicable Me 3 - In Theaters June 30 - Official Trailer</span>
+                        <h5></h5>
+                    </li>
+                    <li>
+                        <img src="assets/images/shipin5.jpg" alt="">
+                        <i class="iconfont fd icon-bofang"></i>
+                        <span><a href="#">设计艺术</a>Versus | Fall Winter 2017/2018 Full Fashion Show</span>
+                        <h5></h5>
+                    </li>
+                    <li>
+                        <img src="assets/images/shipin4.jpg" alt="">
+                        <i class="iconfont fd icon-bofang"></i>
+                        <span><a href="#">影音视觉</a>Piper Disney Pixar - That was so cute Bird</span>
+                        <h5></h5>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 视频end -->
+        <div class="xinwen">
+            <h2>NEWS FEED 新闻流</h2>
+        </div>
+        <!-- 新闻部分start -->
+        <div class="main-new">
+            <div class="news">
+                <ul>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n1.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">“山西小米 ” 品牌形象标识与广告宣传语 征集启事</a></h3>
+                            <h4>15235110629 • 5天前 / 热度 • 48141</h4>
+                            <h5>山西是著名的“小杂粮王国”，山西小米是王国“皇冠上的明珠”，为进一步提升“山西小米”的知名度和美誉度，将“山西小米”打造为山西省的亮丽名片，山西省粮食局向全社会公开有奖征集“山西小米”品牌形象标志（LOGO）及广告宣传语。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n3.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">25 个美丽的珠宝包装设计</a></h3>
+                            <h4>阿琪玛佳 • 1小时前 / 热度 • 823</h4>
+                            <h5>25 个美丽的珠宝包装设计</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n3.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">Oh Miel! 蜂蜜包装设计</a></h3>
+                            <h4>阿琪玛佳 • 2小时前 / 热度 • 1130</h4>
+                            <h5>Oh Miel! 蜂蜜包装设计</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n4.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">2018 狗年全球吉庆生肖设计大赛</a></h3>
+                            <h4>阿琪玛佳 • 19小时前 / 热度 • 7610</h4>
+                            <h5>2018 狗年全球吉庆生肖设计大赛</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n5.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">能停超过万辆！世界上最大的自行车停车库在荷兰开幕</a></h3>
+                            <h4>阿琪玛佳 • 22小时前/ 热度 • 7216</h4>
+                            <h5>能停超过万辆！世界上最大的自行车停车库在荷兰开幕</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n6.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">将美带入生活 – 可以自己制作的精致混凝土器物 / 造么工作室</a></h3>
+                            <h4>阿琪玛佳 • 23小时前 / 热度 • 7712</h4>
+                            <h5>富有创意的 DIY 混凝土。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n7.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">美国诗歌基金会（Poetry FoundAtion）全新品牌 LOGO</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 7529</h4>
+                            <h5>全新的形象将单词“poetry（诗歌）”进行拆分并重新排版，制定了一个基于字母顺序的标准格式，通过这个格式可以放置不同风格的字体设计，呈现出一个有着多种字体不断变化的独特标识。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n8.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">UTGP2017 优衣库全球 T 桖设计比赛</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 9042</h4>
+                            <h5>鼓励全球有创意的年轻人以 T 恤为画布，将图像创意在布料上表现出来，不限年龄、性别和国籍，坐在屏幕前的你也可以去参赛！</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n9.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">会发光的透明衣柜 趣味与品位可以兼得</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 9032</h4>
+                            <h5>schulz 此次推出的“anytime”系列除了可以当作单独一件家具使用之外，还是一款能为任何空间营造高雅与现代氛围的独特装饰品。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n10.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">Jattis 冻酸奶包装设计</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 9448</h4>
+                            <h5>Jattis 冻酸奶包装设计</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar">
+                <div class="haowu">
+                    GOODIES 好物
+                    <span>全球产品猎奇</span>
+                </div>
+                <div class="haowulist">
+                    <ul>
+                        <li>
+                            <a href=""><img src="assets/images/hw1.jpg" alt=""></a>
+                            <h3>
+                                <a href="#">将美带入生活 – 可以自己制作的精致混凝土器物 / 造么工作室</a>
+                                <p>富有创意的 DIY 混凝土。</p>
+                                </h3>
+                        </li>
+                        <li>
+                            <a href=""><img src="assets/images/hw2.jpg" alt=""></a>
+                            <h3>
+                                <a href="#">烟灰缸 / OTHR + Philippe Malouin</a>
+                                <p>3D 打印金属烟灰缸。</p>
+                                </h3>
+                        </li>
+                        <li>
+                            <a href=""><img src="assets/images/hw3.jpg" alt=""></a>
+                            <h3>
+                                <a href="#">      CEDIT 陶瓷 精湛技术与尖端科技共创永恒经典</a>
+                                <p>个性化元素也是 CEDIT 品牌历史中的关键，这种特征能够合并多种不同设计，从而创造出全新的装饰及色彩解决方案</p>
+                                </h3>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 新闻部分end -->
+        <div class="news1-1">
+            <div class="news1">
+                <ul>
+                    <li>
+                        <a href="#"><img src="assets/images/n11.jpg" alt="">
+                            <h5></h5></a>
+                        <h3><a href="#">TRIUMPH T100 SCRAMBLER 凯旋 T100 改装复古攀爬者风格</a></h3>
+                        <h4>
+                        <b class="yj">500</b>
+                        <b class="xx">6</b>
+                        <span>1228275459 • 1天前</span>
+                        </h4>
+                    </li>
+                    <li>
+                        <a href="#"><img src="assets/images/n12.jpg" alt="">
+                            <h5></h5></a>
+                        <h3><a href="#">Various works</a></h3>
+                        <h4>
+                        <b class="yj">2585</b>
+                        <b class="xx">0</b>
+                        <span>1228275459 • 1天前</span>
+                        </h4>
+                    </li>
+                    <li>
+                        <a href="#"><img src="assets/images/n13.jpg" alt="">
+                            <h5></h5></a>
+                        <h3><a href="#">不同面孔的自行车眼镜卡通头像</a></h3>
+                        <h4>
+                        <b class="yj">236</b>
+                        <b class="xx">0</b>
+                        <span>122827369 • 2天前</span>
+                        </h4>
+                    </li>
+                </ul>
+            </div>
+            <div class="summer">
+                <a href="#"><img src="assets/images/summer.png" alt=""></a>
+            </div>
+            <div class="summer1">
+                <ul>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n14.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">yuri himuro 手帕花束展亮相东京 打造梦幻空间体验</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 17152</h4>
+                            <h5>yuri himuro 手帕花束展亮相东京 打造梦幻空间体验</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n15.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">将于 10 月 1 日开馆的草间弥生美术馆，是你的东京之行又一个必去之处</a></h3>
+                            <h4>阿琪玛佳 • 1天前 / 热度 • 17152</h4>
+                            <h5>今年 10 月 1 日，开馆展览的主题是“创作是孤独的追求，爱能带你接近艺术（創造は孤高の営みだ、愛こそはまさに芸術への近づき）”，其中的核心展品将是草间弥生 2009 年以来创作的一个连续绘画作品“我永远的灵魂（わが永远の魂）”。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n15.png" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">阿里巴巴旗下大数据营销平台“阿里妈妈”品牌升级更换新 LOGO</a></h3>
+                            <h4>balaja • 2天前 / 热度 • 18200</h4>
+                            <h5>阿里巴巴旗下大数据营销平台“阿里妈妈”品牌升级更换新 LOGO</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n16.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">MTV 音乐录影带大奖（VMA）更换新 LOGO</a></h3>
+                            <h4>balaja • 2天前 / 热度 • 18333</h4>
+                            <h5>2017 年美国 MTV 音乐录影带大奖将于本月 27 日晚八点，在加利福尼亚的 Inglewood 举行。近日，来自纽约的设计机构 OCD 和 MTV 合作开发了 MTV 音乐录影带大奖全新的视觉形象系统。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n17.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">leslie nooteboom 推出灯饰投影 让你的房间充满阳光</a></h3>
+                            <h4>balaja • 2天前 / 热度 • 18496</h4>
+                            <h5>如今自然光已变得越来越稀有，来自于英国的设计师 leslie nooteboom 设计了一款名为“komorebi”的灯饰投影设备，能够将自然光转化为任何室内背景装饰。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n18.png" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">2018 LEXUS 雷克萨斯全球设计大奖</a></h3>
+                            <h4>balaja • 2天前 / 热度 • 18030</h4>
+                            <h5>2018 LEXUS 雷克萨斯全球设计大奖</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n19.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">UDOL 啤酒包装设计</a></h3>
+                            <h4>balaja • 2天前 / 热度 • 18283</h4>
+                            <h5>2018 LEXUS 雷克萨斯全球设计大奖</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n20.png" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">爱是永恒~ 将亲人的骨灰 3D 打印成独特纪念品</a></h3>
+                            <h4>再生时代冯旭 • 2天前 / 热度 • 19532</h4>
+                            <h5>现在，西班牙殡仪公司 Narbon 正在提供一种名为 3D Memories 的新服务，涉及将您所爱但已逝世的人的部分骨灰与木材、塑料、金属、陶瓷等材料结合在一起，然后将这种混合物 3D 打印成一个独特的物件。 Narbon 专门从事首饰制造，提供圆形和心形吊坠，这些吊坠可以添加到手镯、项链和戒指中。此外，该公司也提供 3D 打印花瓶和半身像。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n21.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">智品链 - 第一家文创生态链将在上海区块链国际峰会发布</a></h3>
+                            <h4>wangjuan365 • 3天前 / 热度 • 34580</h4>
+                            <h5>智品链，第一家定位服务于文创产业的生态区块链，将于 8 月 16 日在上海浦东国际会议中心举行的上海区块链国际峰会发布，智品链首次提出了“共享新经济”（Sharing New Economy）的概念，共享新经济是由区块链技术驱动产生的一种社会变革，智品链（Zeepin Chain）的创始人朱飞提出共享新经济的三个核心要点：点对点共享，去中心化信任，低成本撮合交易。</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                    <li>
+                        <span>
+                            <a href="#"><img src="assets/images/n22.jpg" alt=""></a>
+                            <!-- <h5 遮罩层></h5> -->
+                        </span>
+                        <div class="aaa">
+                            <h3><a href="#">成都富森美 BERNHARDT&VANGUARD（本哈特温格）美式家居馆</a></h3>
+                            <h4>龙徽设计 • 4天前 / 热度 • 36366</h4>
+                            <h5>成都富森美 BERNHARDT&VANGUARD（本哈特温格）美式家居馆</h5>
+                        </div>
+                        <!-- <h6>设计</h6> -->
+                    </li>
+                </ul>
+            </div>
+            <!-- 分页 -->
+            <div class="page">
+                <ul>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footer-main">
+                <div class="footerl">
+                    <h2><img src="assets/images/log.png" alt=""><span>/关注设计影响力</span></h2>
+                    <h3>
+                    <a href="#">关于我们</a>|
+                    <a href="#">特色板块</a>|
+                    <a href="#">涵盖主题</a>|
+                    <a href="#">合作品牌</a>|
+                    <a href="#">联系合作</a>
+                     反馈建议：service @ arting365.com</br>
+                      商务合作：021 - 5027 8342 / 8343</br>
+                       工作时间：工作日 10:00-18:00 </br>
+                    </h3>
+                </div>
+                <div class="footerm">
+                    <h2>战略联盟 / 合作伙伴</h2>
+                    <i><img src="assets/images/ft1.png" alt=""></i>
+                    <i><img src="assets/images/ft2.png" alt=""></i>
+                </div>
+                <div class="footerrt">
+                    <img src="assets/images/wx1.jpg" alt="">
+                    <p>关注微信公众平台</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer1">
+            © 2017 Arting365 Corporation, All right reserved / 沪ICP备05004653号
+        </div>
+        <div class="weix">
+            <p><a href="#top"><i class="iconfont icon-huidingbu"></i></a></p>
+            <p><i class="iconfont icon-erweima"></i>
+                <!-- img src="assets/images/wx1.jpg" alt=""> -->
+            </p>
+        </div>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="assets/js/index.js"></script>
 </body>
+
 </html>

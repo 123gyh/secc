@@ -1,27 +1,124 @@
-* {
-  -webkit-bax-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
+@charset "UTF-8";
 .warp {
-  width: 1349px;
-  height: 20px;
   margin: 0 auto;
-  background-color: red;
+  padding: 0;
+  width: 1349px;
+  min-height: 3000px;
 }
 
-header {
-  width: 100%;
+.header-main {
+  overflow: hidden;
+  width: 1349px;
   background: #fff;
   height: 89px;
   line-height: 89px;
-  position: fixed;
+  align-text: center;
   border-bottom: 1px solid #F5F5F5;
+  position: fixed;
   top: 0px;
   left: 0px;
   z-index: 7999;
+}
+
+.header-log {
+  float: left;
+  margin: 20px 25px 0 124px;
+}
+
+.header-nav {
+  float: left;
+  width: 600px;
+  height: 90px;
+}
+
+.header-nav li {
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", ΢���ź�, STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
+  font-size: 14px;
+  color: #8A929F;
+  cursor: pointer;
+}
+
+.header-nav li .iconfont {
+  font-size: 16px;
+  color: #bec5cf;
+}
+
+#header-seach {
+  float: right;
+  margin-right: 100px;
+}
+
+#header-seach .find {
+  float: left;
+  margin-top: 28px;
+  width: 200px;
+  height: 35px;
+  border: 1px solid #E6E7EB;
+  position: relative;
+}
+
+#header-seach .find input {
+  float: left;
+  height: 30px;
+  width: 150px;
+  border: none;
+  margin-left: 12px;
+}
+
+#header-seach .find i .iconfont {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 24px;
+  color: #bec5cf;
+}
+
+.find-img {
+  float: left;
+  width: 35px;
+  height: 35px;
+  margin: 25px 0 0 40px;
+  border-radius: 50%;
+}
+
+.tanchuang {
+  top: 88px;
+  left: 150px;
+  width: 920px;
+  height: 280px;
+  background: pink;
+  z-index: 99;
+  border: 1px #CECECE solid;
+}
+
+.list {
+  width: 200px;
+  background: red;
+  text-align: center;
+  padding-top: 20px;
+  height: 260px;
+}
+
+.active {
+  width: 690px;
+  height: 212px;
+  background: blue;
+}
+
+.container {
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  font-size: 0;
+  width: 1349px;
+  height: 480px;
+}
+
+.lb li {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
