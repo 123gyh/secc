@@ -22,4 +22,4 @@ gulp.task('scss', function() {
         .pipe(reload({ stream: true }));
 });
 
-gulp.task('default', ['server']);
+gulp.task('default', ['serve']);
