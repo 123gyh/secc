@@ -344,7 +344,6 @@
   margin: 0 auto;
   padding-top: 30px;
   height: 5142px;
-  background: pink;
 }
 
 .main .main-l {
@@ -397,25 +396,95 @@
   text-decoration: underline;
 }
 
+.main .main-l p {
+  width: 707px;
+  font-size: 16px;
+  padding-bottom: 10px;
+  margin: 0 0 25px;
+  line-height: 1.7;
+}
+
+.main .main-l p a {
+  font-size: 16px;
+  color: #2f2f2f;
+}
+
+.main .main-l p a:hover {
+  text-decoration: underline;
+}
+
+.main .main-l .main-l-xx {
+  width: 100%;
+  height: 32px;
+  padding-top: 15px;
+  overflow: hidden;
+}
+
+.main .main-l .main-l-xx ul li {
+  float: left;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  height: 32px;
+  text-align: center;
+}
+
+.main .main-l .main-l-xx ul li a {
+  display: block;
+  font-size: 12px;
+  padding: 0 12px;
+  height: 30px;
+  line-height: 30px;
+  color: #545454;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.main .main-l .main-l-xx ul li a:hover {
+  background-color: #E8ECF5;
+}
+
+.main .comments {
+  width: 707px;
+  min-height: auto;
+  position: relative;
+  clear: both;
+}
+
+.main .comments h4 {
+  height: 12px;
+  line-height: 12px;
+  background: url("../imagesshow/pic.png");
+}
+
+.main .comments h4 i {
+  display: inline-block;
+  padding: 0 8px;
+  font-size: 12px;
+  color: #8D95A2;
+}
+
+.main .comments p {
+  display: inline-block;
+  width: 30px;
+  height: 45px;
+  position: absolute;
+  top: 46px;
+  right: 0;
+  background: url("../imagesshow/pinglun.png") no-repeat;
+}
+
+.main .comments .user {
+  width: 100%;
+  height: 100px;
+  padding-top: 27px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #EAEDF2;
+  color: #333;
+}
+
 .main .main-r {
   width: 290px;
   height: 300px;
   float: right;
   background: red;
-}
-
-/*---------------*/
-.pinglun {
-  position: absolute;
-  bottom: -30px;
-  width: 677px;
-  height: 22px;
-  background-color: rgba(255, 0, 0, 0.6);
-  font-family: lucida;
-  padding: 8px 15px;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 400;
-  opacity: .8;
-  z-index: 9;
 }
