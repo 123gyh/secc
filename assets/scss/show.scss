@@ -286,7 +286,7 @@
 }
 
 
-/********************************/
+/********图片部分************************/
 
 .datuk {
     margin: 0 auto;
@@ -446,11 +446,13 @@
         width: 707px;
         min-height: auto;
         position: relative;
+        margin-bottom: 65px;
         clear: both;
         h4 {
             height: 12px;
             line-height: 12px;
             background: url("../imagesshow/pic.png");
+            margin-top: 40px;
             i {
                 display: inline-block;
                 padding: 0 8px;
@@ -463,7 +465,7 @@
             width: 30px;
             height: 45px;
             position: absolute;
-            top: 46px;
+            top: 7px;
             right: 0;
             background: url("../imagesshow/pinglun.png") no-repeat;
         }
@@ -474,12 +476,106 @@
             padding-bottom: 30px;
             border-bottom: 1px solid #EAEDF2;
             color: #333;
+            img {
+                float: left;
+                border-radius: 50%;
+            }
+            a {
+                font-size: 18px;
+            }
+            span {
+                display: inline-block;
+                font-size: 12px;
+            }
         }
     }
-    .main-r {
-        width: 290px;
-        height: 300px;
-        float: right;
-        background: red;
+}
+
+.pinlun {
+    padding-top: 38px;
+    height: 30px;
+    font-size: 18px;
+    color: #333;
+}
+
+textarea {
+    width: 702px;
+    height: 114px;
+}
+
+.tijiao {
+    margin-top: 15px;
+    width: 707px;
+    height: 34px;
+    color: #fff;
+    border-radius: 3px;
+    background: #4385F5;
+    text-align: center;
+}
+
+//推荐阅读
+.tuijian {
+    color: #fff;
+    width: 1349px;
+    height: 500px;
+    //auto;
+    padding-bottom: 20px;
+    background-color: #F7F7F7;
+    h2 {
+        width: 1080px;
+        height: 78px;
+        line-height: 78px;
+        color: #333;
+        font-weight: bold;
+        background: pink;
     }
+    .tuijian-main {
+        width: 1100px;
+        overflow: hidden;
+        li {
+            width: 253px;
+            float: left;
+            margin: 0 10px;
+            border: 1px solid #F2F2F2;
+            // overflow: hidden;
+            background-color: #fff;
+            img {
+                width: 253px;
+                height: 159px;
+            }
+            h3 {
+                width: 90%;
+                margin: 0 auto;
+                height: 72px;
+                line-height: 24px;
+                font-size: 16px;
+                margin-top: 18px;
+                color: #333;
+            }
+            h4 {
+                width: 90%;
+                margin: 0 auto;
+                height: 40px;
+                line-height: 30px;
+                font-size: 12px;
+                color: #bec5cf;
+                background: pink;
+                i {
+                    display: inline-block;
+                    padding: 0 2px 0 2px;
+                }
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
+
+//右边栏
+.main-r {
+    width: 290px;
+    height: 300px;
+    float: right;
+    background: red;
 }
