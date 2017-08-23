@@ -561,7 +561,7 @@ textarea {
   height: 72px;
   line-height: 24px;
   font-size: 16px;
-  padding-top: 18px;
+  margin-top: 18px;
   color: #333;
 }
 
@@ -588,5 +588,89 @@ textarea {
   width: 290px;
   height: 300px;
   float: right;
-  background: red;
+}
+
+.main-r .r-biaoti {
+  height: 24px;
+  line-height: 24px;
+  padding-top: 13px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E7ECF5;
+  margin-bottom: 25px;
+}
+
+.main-r .r-biaoti span {
+  display: inline-block;
+  width: 86px;
+  font-size: 12px;
+  color: #BEC5CF;
+}
+
+.main-r .r-biaoti span .iconfont {
+  font-size: 30px;
+  margin: 0 10px;
+  display: inline-block;
+  height: 20px;
+}
+
+.main-r .r-biaoti .r-xx {
+  width: 288px;
+  height: 40px;
+  margin-top: 25px;
+  line-height: 40px;
+  border: 1px solid #E7ECF5;
+  border-radius: 3px;
+}
+
+.r-xx a {
+  font-size: 12px;
+  text-align: center;
+  display: inline-block;
+  width: 134px;
+  height: 40px;
+  line-height: 40px;
+  border-right: 1px solid #E1E4EB;
+  color: #474D58;
+  cursor: pointer;
+}
+
+.r-xx a:hover {
+  background-color: #F1F5FA;
+}
+
+.r-xinxi {
+  width: 290px;
+  padding-top: 17px;
+}
+
+.r-xinxi ul {
+  padding-top: 5px;
+}
+
+.r-xinxi ul li {
+  padding-top: 12px;
+  height: 62px;
+  border-bottom: 1px dashed #F6F6F6;
+  padding-right: 5px;
+}
+
+.r-xinxi ul li a {
+  line-height: 20px;
+  font-size: 14px;
+  color: #707070;
+}
+
+.r-xinxi ul li a span {
+  float: left;
+  width: 170px;
+  height: 40px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.r-xinxi img {
+  float: left;
+  padding-right: 10px;
+  width: 80px;
+  height: 50px;
 }

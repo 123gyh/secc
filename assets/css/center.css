@@ -1,0 +1,270 @@
+.warp {
+  width: 1349px;
+  min-height: 1000px;
+}
+
+.xuanxiang {
+  float: left;
+  width: 200px;
+  height: auto;
+  background: url("../imagesuser/bg.png") left repeat-y;
+}
+
+.jiben {
+  width: 200px;
+  height: auto;
+}
+
+.jiben > a {
+  display: inline-block;
+  width: 100%;
+  height: 90px;
+  background: url("../imagesuser/logo.png") no-repeat center center;
+}
+
+.jiben p {
+  width: 70%;
+  max-width: 240px;
+  line-height: 18px;
+  margin: 0 auto;
+  color: #787C84;
+  font-size: 12px;
+  padding-bottom: 15px;
+}
+
+.jiben h2 {
+  width: 70%;
+  margin: 0 auto;
+  max-width: 240px;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.jiben .xinxi {
+  padding-top: 5px;
+  overflow: hidden;
+  background: url("../imagesuser/1.jpg") no-repeat top;
+}
+
+.jiben .xinxi ul {
+  margin-bottom: 10px;
+}
+
+.jiben .xinxi ul li {
+  height: 30px;
+  line-height: 30px;
+}
+
+.jiben .xinxi ul li a {
+  font-size: 14px;
+  text-align: center;
+  display: inline-block;
+  line-height: 30px;
+  width: 70%;
+  max-width: 240px;
+  margin: 0 auto;
+  color: #707070;
+}
+
+.jiben .xinxi ul li a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.jiben .tougao {
+  width: 100%;
+  height: auto;
+}
+
+.jiben .tougao h2 {
+  width: 70%;
+  margin: 0 auto;
+  max-width: 240px;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.jiben .tougao h2 i {
+  font-size: 14px;
+  padding-left: 5px;
+}
+
+.jiben .tougao ul {
+  width: 100%;
+  background: url("../imagesuser/1.jpg") no-repeat top;
+  padding-top: 10px;
+}
+
+.jiben .tougao ul li {
+  height: 30px;
+  line-height: 30px;
+}
+
+.jiben .tougao ul li a {
+  font-size: 14px;
+  text-align: center;
+  display: inline-block;
+  line-height: 30px;
+  width: 70%;
+  max-width: 240px;
+  margin: 0 auto;
+  color: #707070;
+}
+
+.jiben .tougao ul li a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+
+.zhizhen {
+  background: url("../imagesuser/2.jpg") no-repeat right;
+}
+
+.content {
+  float: left;
+  min-height: 850px;
+}
+
+.content .jibenpage {
+  width: 585px;
+  height: 812px;
+  overflow: visible;
+  float: left;
+  padding-left: 50px;
+  margin-top: 10px;
+  background: #fff;
+}
+
+.content .jibenpage h1 {
+  height: 20px;
+  line-height: 25px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+  border-left: 2px solid #008AFF;
+  padding-left: 10px;
+}
+
+.content .jibenpage h5 {
+  height: 58px;
+  line-height: 58px;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.content .jibenpage .touxiang > img {
+  float: left;
+  width: 150px;
+  margin-right: 50px;
+}
+
+.content .jibenpage .touxiang p {
+  width: 380px;
+  float: left;
+  padding-bottom: 10px;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #8b929f;
+}
+
+.content .jibenpage .touxiang input {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: #333;
+  background-color: #fff;
+  border-color: #adadad;
+}
+
+.content .jibenpage .touxiang .inp1 {
+  background: #4385f5;
+  border-color: #4385f5;
+  margin-right: 15px;
+  color: #fff;
+}
+
+.content .jibenpage .touxiang .inp2:hover {
+  background: #e6e6e6;
+}
+
+.content .jibenpage .touxiang .huantx {
+  clear: both;
+  padding-top: 20px;
+  cursor: pointer;
+  width: 113%;
+  background: #fff;
+}
+
+.content .jibenpage .touxiang .huantx img {
+  width: 60px;
+}
+
+.content .jibenpage .zhanghu {
+  height: 58px;
+  line-height: 58px;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.content .jibenpage .zhanghu .zhzhi {
+  width: 420px;
+  overflow: visible;
+}
+
+.content .jibenpage .zhanghu .zhzhi > p {
+  display: block;
+  font-family: inherit;
+  width: 390px;
+  height: 50px;
+  font-size: 14px;
+  padding-left: 28px;
+  line-height: 50px;
+  border: 1px solid #E1E5E8;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.content .jibenpage .zhanghu .zhzhi > p input {
+  height: 46px;
+  line-height: 50px;
+  font-size: 14px;
+  width: 65%;
+  color: #333;
+  border: 0;
+  outline: none;
+  margin-left: 10px;
+}
+
+.content .jibenpage .zhanghu .zhzhi .wenben {
+  vertical-align: text-top;
+  font-size: 14px;
+}
+
+.content .jibenpage .zhanghu .zhzhi .wenben span {
+  display: inline-block;
+  float: left;
+  width: 30%;
+}
+
+.content .jibenpage .zhanghu .zhzhi .wenben textarea {
+  float: right;
+  width: 68%;
+  height: 104px;
+  line-height: 26px;
+}
+
+.content .jibenpage .zhanghu .zhzhi .danxuan > input {
+  width: 30px;
+  height: 15px;
+  margin-left: 20px;
+}

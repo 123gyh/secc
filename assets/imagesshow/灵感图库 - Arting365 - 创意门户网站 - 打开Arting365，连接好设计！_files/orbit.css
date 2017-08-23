@@ -1,0 +1,66 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/* CONTAINER */
+div.orbit { width: 1px; height: 1px; position: relative;  overflow: hidden; }
+div.orbit a { position: absolute; top: 0; left: 0; width:100%; height:100%; display:block;
+	-webkit-transition: none;
+	-moz-transition: none;
+	transition: none;
+}
+div.orbit a .scroll-info {
+	display: none;
+	margin: 50px 0 0 40px
+}
+div.orbit a .scroll-info .cover-type {
+	position: inherit;
+}
+div.orbit a .scroll-info h1{
+	font-size: 50px;
+	color: #FFF;
+	font-weight: bold;
+}
+div.orbit a .scroll-info .desc{
+	color: #FFF;
+	width: 705px;
+	font-size: 20px;
+	line-height: 28px;
+}
+
+/* TIMER */
+div.timer { width: 40px; height: 40px; overflow: hidden; position: absolute; top: 10px; right:10px; opacity: .6; cursor: pointer; z-index: 1001; }
+span.rotator { display: block; width: 40px; height: 40px; position: absolute; top: 0; left: -20px; background: url('orbit/rotator-black.png') no-repeat; z-index: 3; }
+span.mask { display: block; width: 20px; height: 40px; position: absolute; top: 0; right: 0; z-index: 2; overflow: hidden; }
+span.rotator.move { left: 0; }
+span.mask.move { width: 40px; left: 0; background: url('orbit/timer-black.png') repeat 0px 0px;  }
+span.pause { display: block; width: 40px; height: 40px; position: absolute; top: 0; left: 0px; background: url('orbit/pause-black.png') no-repeat; z-index: 4; opacity: 0; }
+div.timer:hover span.pause,
+span.pause.active, 
+div.timer:hover span.pause.active { opacity: 1; }
+
+/* DIRECTIONAL NAV */
+div.orbit:hover div.slider-nav { display: none; }
+div.slider-nav { display: none; }
+div.slider-nav span { width: 33px; height: 102px; text-indent: -9999px; position: absolute; z-index: 99; top: 40%; cursor: pointer; }
+div.slider-nav span.right { background: url(../img/right-arrow.png); right: 20px; }
+div.slider-nav span.left { background: url(../img/left-arrow.png); left: 20px; }   
+
+/* BULLET NAV */
+.orbit-bullets { position: absolute; z-index: 9; list-style: none; bottom: 21px; left: 7px; margin: 0; padding: 0; }
+.orbit-bullets li { float: left; margin-left: 5px; cursor: pointer; color: #999; text-indent: -9999px; background:url(../img/bullets.png) no-repeat 0 0; width: 17px; height: 17px; overflow: hidden; }
+.orbit-bullets li.active { color: #222; background-position: -17px 0; }
+
+#slide {width:100%; height:180px; background: url(../img/loading.gif) no-repeat center center; overflow: hidden; }
+@media (min-width: 960px){
+	div.orbit a .scroll-info {
+		display: block;
+	}
+	div.orbit:hover div.slider-nav { display: block; }
+	#slide {height:397px;}
+}
+@media (min-width: 1460px){
+	div.orbit a .scroll-info {
+		display: block;
+	}
+	div.orbit:hover div.slider-nav { display: block; }
+	#slide {height:397px;}
+}

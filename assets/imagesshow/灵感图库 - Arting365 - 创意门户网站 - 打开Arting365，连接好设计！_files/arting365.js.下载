@@ -1,0 +1,1550 @@
+$(function() {
+    navSize();
+
+    function navSize() {
+        var ww = $('.main:visible').width();
+        $('.type-drop').css('min-width', ww);
+        $('.arting-nav').css('width', ww);
+        $('.details-fix-bar').css('width', ww);
+        $('.gellery-fix-bar').css('width', ww);
+    }
+    $(window).resize(function() {
+        navSize()
+    });
+    $('.dropdown').click(function(event) {
+        //取消事件冒泡
+        event.stopPropagation();
+        navSize();
+        $(this).find('.dropdown-menu').toggleClass('visible');
+        $(this).siblings().find('.dropdown-menu').removeClass('visible');
+    });
+    $('.dropdown-menu').click(function(event) {
+            event.stopPropagation();
+        })
+        //点击空白处或者自身隐藏弹出层。
+    $(document).click(function(event) {
+        $(".dropdown-menu").removeClass('visible')
+    });
+
+});
+
+(function() {
+    var hasLoadingMore = false;
+    //滚动到底加载更多
+    $(window).scroll(function() {
+        var top = document.body.scrollTop;
+        var height = document.documentElement.clientHeight;
+        var allHeight = document.body.scrollHeight;
+
+        if ((top + height) >= allHeight) {
+            if (config.moreData) {
+                var tip = $('<div class="at-loading"></div>');
+                config.renderEle.after(tip);
+                var tempData = config.moreData;
+                config.moreData = undefined;
+                setTimeout(function() {
+                    tip.remove();
+                    var renderFor = config.renderMoreTmpl || config.renderFor;
+                    config.renderMoreTmpl = undefined;
+                    Ajax.render(config.renderEle, renderFor, tempData, true);
+                    //显示数字分页
+                    $('.pagination-row').show();
+                    config.moreFn && config.moreFn();
+                }, 1000);
+            } else if (config.unlimited && !Ajax.isLoading) {
+                config.page++;
+                config.paging();
+            }
+        }
+    });
+
+    // 分页按钮
+    $('.pagination').on('click', 'a', function(e) {
+        if($(this).attr('href').indexOf('#') != 0){
+            location.href = $(this).attr('href');
+            return;
+        }
+        e.preventDefault();
+
+        var par = $(this).parent();
+        if (par.hasClass('loading') || par.hasClass('disabled')) {
+            // 正在加载，不可点击
+            return;
+        }
+
+        var p = $(this).attr('href').replace('#', '')
+        if (!Ajax.isLoading) {
+            hasLoadingMore = false;
+            config.paging && config.paging(p);
+        }
+
+        history.pushState({
+            paging: true,
+            num: p,
+            type: location.pathname
+        }, '', '?page=' + p);
+    });
+
+    //设置tab切换
+    $('.setting-tab li').click(function() {
+        $('.setting-tab li').removeClass('active');
+        $(this).addClass('active');
+        $('#setting form').hide();
+        $('#setting form:eq(' + $(this).index() + ')').show()
+    });
+
+    //显示顶部文章分类下拉框
+    if ($('.type-drop').length > 0) {
+        var tempArticles = [];
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'quickview'
+            }
+        }, function(response) {
+            tempArticles = response;
+            Ajax.render('.at-top-article', 'at-top-article-tmpl', response.Quick01);
+        });
+
+        $('.type-drop .submenu li').hover(function(e) {
+            e.preventDefault();
+            $('.type-drop .submenu li').removeClass('active');
+            $(this).addClass('active');
+            var key = $(this).attr('data-key');
+            if (!tempArticles) return;
+
+            Ajax.render('.at-top-article', 'at-top-article-tmpl', tempArticles[key], false);
+        });
+    }
+})();
+
+(function(e, t) {
+    var n = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    e.fn.imagesLoaded = function(i) {
+        function o() {
+            var t = e(h),
+                n = e(f);
+            l && (f.length ? l.reject(u, t, n) : l.resolve(u)),
+                e.isFunction(i) && i.call(s, u, t, n)
+        }
+
+        function r(e) {
+            a(e.target, "error" === e.type)
+        }
+
+        function a(t, i) {
+            t.src === n || -1 !== e.inArray(t, d) || (d.push(t), i ? f.push(t) : h.push(t), e.data(t, "imagesLoaded", {
+                isBroken: i,
+                src: t.src
+            }), c && l.notifyWith(e(t), [i, u, e(h), e(f)]), u.length === d.length && (setTimeout(o), u.unbind(".imagesLoaded", r)))
+        }
+        var s = this,
+            l = e.isFunction(e.Deferred) ? e.Deferred() : 0,
+            c = e.isFunction(l.notify),
+            u = s.find("img").add(s.filter("img")),
+            d = [],
+            h = [],
+            f = [];
+        return e.isPlainObject(i) && e.each(i,
+                function(e, t) {
+                    "callback" === e ? i = t : l && l[e](t)
+                }),
+            u.length ? u.bind("load.imagesLoaded error.imagesLoaded", r).each(function(i, o) {
+                var r = o.src,
+                    s = e.data(o, "imagesLoaded");
+                s && s.src === r ? a(o, s.isBroken) : o.complete && o.naturalWidth !== t ? a(o, 0 === o.naturalWidth || 0 === o.naturalHeight) : (o.readyState || o.complete) && (o.src = n, o.src = r)
+            }) : o(),
+            l ? l.promise(s) : s
+    }
+})(jQuery);
+
+(function() {
+    /*主页相关*/
+    var video = '',
+        flag = false; //标志当前页面是否已加载
+    var _load = jQuery.Event("_load");
+
+    // config.unlimited = true;
+
+    //首次加载渲染页面其他数据
+    function firstRender(data) {
+        var slide = data.slide;
+        var daily = data.daily;
+        var dnm = data.dnm;
+        var threeProducts = data.threeProducts;
+        var fourNews = data.fourNews;
+        var works = data.works;
+        var stream = data.stream;
+        var fiveWorks = data.fiveWorks;
+        var newsExp = data.newsExp;
+        var pushs = data.pushs;
+        var news = data.news;
+        var result = ''
+        for (var i = 0; i < slide.length; i++) {
+            //
+            result += '<div class="swiper-slide"><a href="' + slide[i].Link + '" target="_blank" style="background-image: url(' + slide[i].Photo + ')"><img src="' + slide[i].Photo + '"></a></div>'
+        };
+
+        $('.swiper-wrapper').append(result);
+
+        result = ''
+
+        for (var i = 0; i < 4; i++) {
+            result += '<a href="' + daily[i].URL + '" class="clearfix" target="_blank"><div class="pic"><img src="' + daily[i].Photo + '"></div><div class="txt">' + daily[i].Title + '</div></a>'
+        };
+
+        $('#daily').append(result);
+
+        result = ''
+
+        for (var i = 0; i < fourNews.length; i++) {
+            result += '<li class="col-sm-4 col-md-4 col-lg-3"><div class="thumbnail"><span class="cover-type photography"><b>' + fourNews[i].NodeName + '</b><i></i></span><a href="' + fourNews[i].URL + '" target="_blank"><img src="' + fourNews[i].Photo + '" height=""></a><div class="caption"><h5><a href="' + fourNews[i].URL + '">' + fourNews[i].Title + '</a></h5><div class="clearfix author"><div class="pull-left"><span class="read-num"><i></i>' + fourNews[i].base_count.Hits_Total + '</span><span class="reply-num"><i></i>' + fourNews[i].base_count.CommentNum + '</span></div><div class="pull-right">' + fourNews[i].Editor + ' • ' + Tools.showDate(fourNews[i].PublishDate) + '</div></div></div></div></li>'
+        };
+
+        $('#fourNews').append(result);
+
+        result = ''
+
+        result += '<a href="' + fiveWorks[0].URL + '" target="_blank"><div class="img-txt"><h2>' + fiveWorks[0].Title + '</h2><p>' + fiveWorks[0].Intro + '</p></div><img src="' + fiveWorks[0].Photo + '"></a>'
+
+        $('#fiveWorksFirst').append(result);
+
+        result = ''
+
+        for (var i = 1; i < fiveWorks.length; i++) {
+            result += '<div class="thumb"><a href="' + fiveWorks[i].URL + '" class="img-cover" target="_blank"><div class="txt"><h4>' + fiveWorks[i].Title + '</h4><p>' + fiveWorks[i].Intro + '</p><div class="author"><div class="pull-left"><span class="read-num"><i></i>' + fiveWorks[i].base_count.Hits_Total + '</span><span class="reply-num"><i></i>' + fiveWorks[i].base_count.CommentNum + '</span></div></div></div></a><div class="img-cover-bg"></div><img src="' + fiveWorks[i].Photo + '"></div>'
+        };
+
+        $('#fiveWorks').append(result);
+
+        result = ''
+
+        for (var i = 0; i < newsExp.length; i++) {
+            result += '<dd><a href="' + newsExp[i].URL + '" target="_blank">' + newsExp[i].Title + '</a></dd>'
+        };
+
+        $('#newsExp').append(result);
+
+        result = '';
+
+        for (var i = 1; i < dnm.length; i++) {
+            result += '<dd><div class="clearfix"><div class="thumb"><a href="' + dnm[i].Link + '" target="_blank"><img src="' + dnm[i].MiniPhoto + '"></a></div><div class="txt"><a href="' + dnm[i].Link + '">' + dnm[i].Title + '</a></div></div></dd>'
+        };
+
+        $('#dnm').append(result);
+
+        if (dnm[0].Photo != '') {
+            var firstPhoto = '<a href="' + dnm[0].Link + '" target="_blank"><img src="' + dnm[0].Photo + '"></a>';
+            $('#dnmFirst').append(firstPhoto);
+        }
+
+        // result = ''
+
+        // for(var i=0; i<works.length; i++){
+        //  result += '<div class="col-sm-6 col-md-4 col-lg-4"><div class="thumbnail"><span class="cover-type photography"><b>'+ works[i].NodeName +'</b><i></i></span><a href="'+ works[i].URL +'"><img src="'+ works[i].Photo +'" height=""></a><div class="caption"><h5><a href="'+ works[i].URL +'">'+ works[i].Title +'</a></h5><div class="clearfix author"><div class="pull-left"><span class="read-num"><i></i>'+ works[i].base_count.Hits_Total +'</span><span class="reply-num"><i></i>'+ works[i].base_count.CommentNum +'</span></div><div class="pull-right">'+ works[i].Editor +' • '+ Tools.showDate(works[i].PublishDate) +'</div></div></div></div></div>'
+        // };
+
+        // $('#works').append(result);
+
+        result = ''
+
+        for (var i = 0; i < threeProducts.length; i++) {
+            result += '<a href="' + threeProducts[i].URL + '" class="thumbs" target="_blank"><div class="pic"><img src="' + threeProducts[i].Photo + '"></div><div class="txt"><h5>' + threeProducts[i].Title + '</h5><p>' + threeProducts[i].Intro + '</p></div></a>'
+        };
+
+        $('#threeProducts').append(result);
+
+        result = ''
+        for (var i = 0; i < stream.length; i++) {
+            result += '<li data-title="' + stream[i].Title + '" data-desc="' + stream[i].Desc + '" data-photo="' + stream[i].Photo_big + '" class="col-xs-12 col-sm-6 col-md-6 col-lg-12"><input class="file" type="hidden" value="' + stream[i].File + '"><div class="clearfix"><div class="thumb"><i></i><img src="' + stream[i].Photo + '"></div><div class="txt"><span class="photography">' + stream[i].NodeName + '</span><p>' + stream[i].Title + '</p></div></div></li>'
+        };
+
+        $('#stream').append(result);
+        $('#stream').find('li').eq(0).trigger('click');
+
+        // result = ''
+        // result += '<a href="'+ pushs[0].PushUrl +'"><img src="'+ pushs[0].PushRes +'"></a>'
+        // $('#pushs').append(result);
+
+        // result = ''
+
+        // for(var i=0; i<3; i++){
+        //  result += '<li><div class="clearfix"><div class="thumb"><span class="cover-type photography"><b>'+ news[i].NodeName +'</b><i></i></span><a href="'+ news[i].URL +'"><img src="'+ news[i].Photo +'"></a></div><div class="txt"><h4><a href="'+ news[i].URL +'">'+ news[i].Title +'</a></h4><span class="author">'+ news[i].Editor +' • '+ Tools.formatDate(news[i].PublishDate,7) +'</span><p>'+ news[i].Intro +'</p></div></div></li>'
+        // };
+
+        // $('#topNews').append(result);
+
+        //Ajax.render('#at-list','at-list-tmpl',data);
+
+        $('.container').show(); //加载完数据在显示
+
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            slidesPerView: 1,
+            paginationClickable: true,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: 3000,
+            autoplayDisableOnInteraction: false
+        });
+
+        $('#menu').mmenu();
+    };
+
+    //获取列表数据
+    config.loadHome = function(opt) {
+        if (opt)
+            config.page = opt;
+
+        //type=home&order=asc&page=1
+        Ajax.atpaging({
+            url: config.url,
+            data: {
+                type: 'home',
+                order: 'asc',
+                page: config.page,
+                pagenum: config.pageSize
+            },
+            key: '-1',
+            renderEle: '#at-news-list',
+            renderFor: 'at-news-list-tmpl',
+            renderMoreTmpl: 'at-more-tmpl'
+        }, function(data) {
+            if (!flag) {
+                flag = true;
+                firstRender(data);
+            }
+        });
+    }
+    config.loadHomeForMobile = function(opt) {
+        if (opt)
+            config.page = opt;
+
+        //type=home&order=asc&page=1
+        Ajax.paging({
+            url: config.url,
+            data: {
+                type: 'home',
+                order: 'asc',
+                page: config.page,
+                pagenum: config.pageSize
+            },
+            key: '-1',
+            renderEle: '#at-news-list',
+            renderFor: 'at-news-list-tmpl'
+        }, function(data) {
+            if (!flag) {
+                flag = true;
+                firstRender(data);
+            }
+        });
+    }
+
+    //左侧主tab切换
+    $('.type-bar .icon-tab').click(function(e) {
+        e.preventDefault();
+
+        //关闭sidebar
+        $('#st-container').removeClass('st-menu-open');
+
+        if ($(this).hasClass('collection')) {
+            //未登录弹框
+            if (!artHasLogin || artHasLogin != 1) {
+                $('#loginModal').modal('show');
+                return;
+            }
+        }
+
+        window.scrollTo(0, 0);
+        $('.type-bar .icon-tab').removeClass('current');
+        $(this).addClass('current');
+        $('.templ').hide().removeClass('setting-view');
+
+        if ($(this).hasClass('news')) {
+            //首页
+            $('#home').show().trigger('_load');
+            history.pushState({
+                page: '#home'
+            }, '', '/');
+        } else if ($(this).hasClass('collection')) {
+            //收藏
+            $('#favorite').show().trigger('_load');
+            history.pushState({
+                page: '#favorite'
+            }, '', '/favorite');
+        } else if ($(this).hasClass('pinpx')) {
+            //图集
+            $('#gallery').show().trigger('_load');
+            history.pushState({
+                page: '#gallery'
+            }, '', '/gallery');
+        } else if ($(this).hasClass('setting')) {
+            //设置
+            location.href = "/setting";
+        } else if ($(this).hasClass('about')) {
+            //设置
+            location.href = "http://m.arting365.com/about/";
+        }
+    });
+
+    $('#home').on('_load', function() {
+        //根据屏幕宽度确定加载方式
+        if ($(document).width() < 640) {
+            config.paging = config.loadHomeForMobile;
+            config.unlimited = true;
+        } else {
+            config.paging = config.loadHome;
+            config.unlimited = false
+        }
+        config.page = 1;
+        config.paging();
+
+        var ww = $('.main:visible').width();
+        $('.type-drop').css('min-width', ww);
+        $('.type-bar .icon-tab').removeClass('current');
+        $('.type-bar .news').addClass('current');
+        $('body').removeClass('gellery-bg');
+    });
+
+    $('#favorite').on('_load', function() {
+        config.page = 1;
+        config.paging = loadFavorites;
+        config.unlimited = false; //取消当前分页为无限分页
+        loadFavorites();
+        var ww = $('.main:visible').width();
+        $('.type-drop').css('min-width', ww);
+        $('.type-bar .icon-tab').removeClass('current');
+        $('.type-bar .collection').addClass('current');
+        $('body').removeClass('gellery-bg');
+    });
+
+    $('#gallery').on('_load', function() {
+        config.page = 1;
+        config.paging = config.loadGallery;
+        config.unlimited = true; //设置当前分页为无限分页
+
+        loadHotkeyword();
+        getBanner();
+        config.loadGallery();
+        var ww = $('.main:visible').width();
+        $('.type-drop').css('min-width', ww);
+        $('.type-bar .icon-tab').removeClass('current');
+        $('.type-bar .pinpx').addClass('current');
+        $('body').addClass('gellery-bg');
+
+        initContainer();
+
+        //设置画册高度为页面高度，遮盖右侧导航
+        $('#at-gallery-list').css('height', $(window).height());
+    });
+
+    //初始化图新鲜的日期
+    var date = new Date();
+    this.year = date.getFullYear();
+    this.month = date.getMonth() + 1;
+    this.date = date.getDate();
+    this.day = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")[date.getDay()];
+
+    if (this.date.length < 2) {
+        $('.day').text('0' + this.date); //输出时间
+    } else {
+        $('.day').text(this.date); //输出时间
+    }
+    $('.week').text(this.day);
+    $('.monthum').text(this.month + '月');
+
+    //视频切换
+    $('#stream').on('click', 'li', function() {
+        var streamFile = $(this).find('.file').val();
+        var title = $(this).attr('data-title');
+        var desc = $(this).attr('data-desc');
+        var photo = $(this).attr('data-photo');
+
+        // $(this).siblings().removeClass('active');
+        // $(this).addClass('active');
+        // playvideo(streamFile);
+
+        $('.video .show-info .txt').html('<h3>' + title + '</h3>' + desc);
+        // $('.video .show-info').show();
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        playvideo(streamFile, '', function() {
+            $('.video .show-info').hide();
+        }, photo);
+
+    });
+
+    $('.get-search').click(function() {
+        $('.mobile-search').addClass('visible');
+    })
+
+    $('.remove').click(function() {
+        $('.mobile-search').removeClass('visible');
+    });
+
+
+    /* 收藏相关＝＝＝＝＝＝ */
+
+    //搜索条件
+    var keyword_fav = '',
+        item = 'all',
+        order = 'desc';
+
+    //栏目切换
+    $('#favorite [data-item]').click(function(e) {
+        e.preventDefault();
+
+        $('#favorite [data-item]').removeClass('active');
+        $(this).addClass('active');
+        item = $(this).attr('data-item');
+        config.page = 1;
+        loadFavorites();
+    });
+
+    //搜索
+    $('#favorite [type="submit"]').click(function(e) {
+        e.preventDefault();
+
+        keyword = $(this).parent().find('input[type="text"]').val();
+        config.page = 1;
+        loadFavorites();
+    });
+
+    //排序
+    $('#favorite [data-order]').click(function(e) {
+        e.preventDefault();
+
+        $('#favorite [data-order]').removeClass('active');
+        $(this).addClass('active');
+        order = $(this).attr('data-order');
+        config.page = 1;
+        loadFavorites();
+    });
+
+    //我的收藏删除按钮
+    $('#at-favorites').on('click', '.delete', function(e) {
+        e.preventDefault();
+
+        var that = $(this);
+
+        if (that.hasClass('doing')) {
+            return;
+        }
+        that.addClass('doing');
+
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'like',
+                id: that.attr('data-id')
+            }
+        }, function(response) {
+            if (response.feedback != '收藏已取消') {
+                return;
+            }
+            that.parents('.favorite-item').remove();
+        });
+
+    });
+
+    //获取列表数据
+    function loadFavorites(opt) {
+        if (opt)
+            config.page = opt;
+
+        ///live?type=fav&item={ item }& keyword ={ keyword }& page ={ page }
+        // item＝ all时，加载所有类型收藏内容
+        // item＝ news时，加载收藏的资讯内容
+        // item＝ work时，加载收藏的作品内容
+        // item＝ video时，加载收藏的视频内容
+        // item＝ story时，加载收藏的故事内容
+        Ajax.atpaging({
+            url: config.url,
+            data: {
+                type: 'fav',
+                item: item,
+                keyword: keyword_fav,
+                order: order,
+                page: config.page,
+                pagenum: 24
+            },
+            renderEle: '#at-favorites',
+            renderFor: 'at-favorites-tmpl'
+        }, function(response) {
+            if (!$('#favorite-total').hasClass('loaded') && response.pageInfo) {
+                $('#favorite-total').addClass('loaded').text(response.pageInfo.total);
+            }
+        });
+    }
+
+    /*画册相关*/
+    var keyword = Tools.getQueryValue('key');
+    var galleryId = Tools.getParam();
+    var type = '';
+    var nodeid = undefined;
+    var tmpl = '';
+    var key = '';
+    var conWidth;
+    var tempData; //临时存储详细的数据
+
+    //搜索框处的弹出框
+    $('.search-conditions').click(function(event) {
+        event.stopPropagation();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        } else {
+            $(this).addClass('active');
+        }
+        $(this).find('.dropdown-conditions').toggleClass('visible');
+        $(this).siblings().find('dropdown-conditions').removeClass('visible');
+    });
+
+    //点击空白处或者自身隐藏弹出层。
+    $(document).click(function(event) {
+        $(".dropdown-menu").removeClass('visible');
+    });
+
+    //确认固定搜索栏的显示、隐藏
+    resetFixbar();
+    $(window).resize(function() {
+        resetFixbar()
+    });
+
+    function resetFixbar() {
+        if ($(window).width() > 992) {
+            if ($(window).scrollTop() < 180) {
+                $(window).scroll(function() {
+                    if ($(window).width() > 992) {
+                        if ($(window).scrollTop() > 200) {
+                            $('.gellery-fix-bar').fadeIn();
+                        } else {
+                            $('.gellery-fix-bar').fadeOut();
+                        }
+                    }
+                });
+            };
+
+            if ($(window).scrollTop() > 180) {
+                $('.gellery-fix-bar').show();
+            } else {
+                $('.gellery-fix-bar').hide();
+            }
+        } else {
+            $('.gellery-fix-bar').hide();
+        };
+    }
+
+    //图库搜索，大屏顶部搜索框
+    $('#at-form1').submit(function(e) {
+        e.preventDefault();
+
+        keyword = $(this).find('.form-control').val();
+        config.page = 1;
+        config.loadGallery();
+    });
+
+    //图库搜索，大屏固定顶部搜索框
+    $('#at-form').submit(function(e) {
+        e.preventDefault();
+
+        keyword = $(this).find('.form-control').val();
+        config.page = 1;
+        config.loadGallery();
+    });
+
+    //图库搜索，小屏固定顶部搜索框
+    $('#at-form2').submit(function(e) {
+        e.preventDefault();
+
+        keyword = $(this).find('input').val();
+        config.page = 1;
+        config.loadGallery();
+    });
+
+    tabType('gallery', 'gallery-list-tmpl', 'gallery', '1540');
+
+    function tabType(types, tmpls, keys, colWid) {
+        type = types;
+        tmpl = tmpls;
+        key = keys;
+        conWidth = colWid;
+        // config.renderFor = tmpl;
+    }
+
+    //画册集，画册之间切换
+    $('.img-icon').click(function() {
+        $(this).toggleClass('album');
+        $('#at-gallery-list').height('auto')
+        if ($('.img-icon').hasClass('album')) {
+            $('.nodeid-view').hide();
+            tabType('album', 'album-list-tmpl', 'album', '1180');
+            $(this).removeClass('gallery').addClass('pic');
+        } else {
+            //nodeid = undefined;
+            $('.nodeid-view').show();
+            tabType('gallery', 'gallery-list-tmpl', 'gallery', '1540');
+            $(this).removeClass('pic').addClass('gallery');
+        }
+        config.page = 1;
+        config.loadGallery();
+    });
+
+    $('.search-conditions').on('click', 'li', function() {
+        var nodeidTxt = $(this).text();
+        $('.nodeid-view').text(nodeidTxt).show();
+        nodeid = $(this).attr('data-id');
+        tabType('gallery', 'gallery-list-tmpl', 'gallery', '1540');
+        $('.img-icon').removeClass('pic').removeClass('album').addClass('gallery');
+        config.loadGallery();
+    });
+
+    //加载图库的关键字
+    function loadHotkeyword() {
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'hotkeyword',
+                page: config.page,
+                size: config.pageSize
+            },
+        }, function(response) {
+            var keyword = response.hotkeyword;
+            var result = ''
+            for (var i = 0; i < keyword.length; i++) {
+                result += '<a href="#">' + keyword[i] + '</a>，'
+            }
+            result = result.substring(0, result.length - 1);
+            $('#keyword').empty().append(result);
+        });
+    }
+
+    $('#keyword').on('click', 'a', function(e) {
+        e.preventDefault();
+
+        var keyname = $(this).text();
+        keyword = keyname;
+        $('#keyInput').val(keyname);
+        config.page = 1;
+        config.loadGallery();
+    });
+    //获取列表数据
+    config.loadGallery = function(opt) {
+        if (opt)
+            config.page = opt;
+
+        //type=gallery&nodeid=1&keyword=design&page=1
+        Ajax.paging({
+            url: config.url,
+            data: {
+                type: type,
+                nodeid: nodeid,
+                keyword: keyword,
+                page: config.page,
+                pagenum: 24 //getPagenum()
+            },
+            key: key,
+            renderEle: '#at-gallery-list',
+            renderFor: tmpl,
+        }, function(response) {
+            if (response.gallery) {
+                //这里只在显示图集时使用瀑布流
+                //initBlock(response.gallery);
+
+                var container = document.querySelector('#at-gallery-list');
+                var pckry = ('Packery' in window) && new Packery(container, {
+                    itemSelector: '.gallery-vertical',
+                    //gutter: 5
+                });
+                loadImg();
+
+                //图片预加载
+                // $('#at-gallery-list').imagesLoaded(function(){
+                //     var container = document.querySelector('#at-gallery-list');
+                //     var pckry = ('Packery' in window) && new Packery( container, {
+                //       itemSelector: '.gallery-vertical',
+                //       gutter: 5
+                //     });
+                // });
+            }
+        });
+    };
+
+    //画册列表加载图片
+    function loadImg() {
+        var st = $(document).scrollTop();
+        var h = $(document).height();
+        $('#at-gallery-list img').each(function() {
+            if (!$(this).hasClass('loaded')) {
+                var offset = $(this).offset();
+                if ((st + h) > offset.top) {
+                    $(this).attr('src', $(this).attr('data-src')).addClass('loaded');
+                }
+            }
+        });
+    }
+
+    function initBlock(data) {
+        var winWidth = $(window).width();
+        if (winWidth <= 480) {
+            conWidth = 480;
+            col = 1
+        } else if (winWidth <= 960) {
+            conWidth = 616;
+            col = 2
+        } else if (winWidth < 1160) {
+            conWidth = 850;
+            col = 3
+        } else if (winWidth < 1540) {
+            conWidth = 1050;
+            col = 4;
+        } else {
+            conWidth = 1430;
+            col = 5;
+        }
+
+        $('#at-gallery-list').width(conWidth);
+        var abc = new LoadImage(data, function() {
+            $('#at-gallery-list').show();
+            $('#at-gallery-list').BlocksIt({
+                numOfCol: col,
+                offsetX: 8,
+                offsetY: 8,
+                blockElement: '.gallery-vertical'
+            });
+        })
+    }
+
+    function getPagenum() {
+        if (type == 'album') {
+            //画册集显示时固定分页大小
+            return 8;
+        }
+        var winWidth = $(window).width();
+        if (winWidth < 924) {
+            col = 2
+        } else if (winWidth < 1160) {
+            col = 3
+        } else if (winWidth < 1540) {
+            col = 4;
+        } else {
+            col = 5;
+        }
+        return col * 2;
+    }
+
+    //获取图库的banner背景
+    function getBanner() {
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'hotbackground',
+                page: config.page,
+                size: config.pageSize
+            },
+        }, function(response) {
+            var bgData = response.hotbackground;
+            var n = Math.floor(Math.random() * bgData.length);
+            var bg = bgData[n]
+            $('.gellery-header').css('background', 'url("' + bg + '") no-repeat center').css('background-size', '100% auto');
+        });
+    }
+
+    //画册详细中点击查看所有图片
+    $('#at-gallery-detail').on('click', '.show-all-img', function() {
+        var photos = tempData.view.Photos,
+            imgArr = [];
+        for (var i in photos) {
+            imgArr.push(photos[i]);
+        }
+        Ajax.render('#at-photos', 'at-photos-tmpl', imgArr);
+        lazyLoadImg($('#myModal').scrollTop(), $('#myModal').height(), $('#myModal').offset());
+
+        $('#at-photos').removeClass('imgs-scroll').removeClass('orbit');
+        $(this).parent().hide();
+    });
+
+    //http://arting365.com/data/live?type=view&id=227745
+    //获取画册详情
+    function getDetail(id) {
+        tempId = id;
+
+        var a = $('#myModal');
+        // if(a[0].scrollTop > 0 && a[0].scrollByLines){
+        //     a[0].scrollByLines(-a[0].scrollTop);
+        // }
+        a.scrollTop(0);
+
+        $('#at-gallery-detail').empty();
+        $('#at-works').empty(); //移除画册详情的相关作品
+        $('.relation-gallery').remove();
+        Ajax.detail({
+            url: config.url,
+            data: {
+                type: 'view',
+                id: id
+            },
+            // renderEle: '#at-gallery-detail',
+            // renderFor: 'at-gallery-detail-tmpl'
+        }, function(response) {
+            tempData = response;
+
+            if (response.view.PhotoNum > 0) {
+                //若返回数据有图片
+                var firstImg = response.view.Photos['1'];
+                var img = new Image(),
+                    realW = 660, //图片缩放后的尺寸
+                    realH;
+
+                if ($(window).width() < 768) {
+                    realW = $(window).width() - 60; //60=图片的左右间距
+                }
+
+                img.onload = function() {
+                    var orgiW = this.width,
+                        orgiH = this.height;
+
+                    realH = realW * orgiH / orgiW;
+
+                    Ajax.render('#at-gallery-detail', 'at-gallery-detail-tmpl', response);
+                    $('#at-gallery-detail').animate({
+                        'min-height': realH + 283 //283=其余内容+间距
+                    }, 800);
+
+                    initDetailBlock();
+                }
+                img.src = firstImg;
+            }
+
+            //画册详情的右侧广告
+            Ajax.render('#myModal', 'at-gallery-detail-1-tmpl', response, true);
+        });
+    }
+    config.getGalleryDetail = getDetail;
+
+    //初始化详细的瀑布流
+    function initDetailBlock() {
+        var data = tempData.works;
+
+        Ajax.render('#at-works', 'at-works-tmpl', data);
+
+        var container = document.querySelector('#at-works');
+        var pckry = ('Packery' in window) && new Packery(container, {
+            itemSelector: '.gallery-vertical',
+            //gutter: 5
+        });
+        loadDetailOtherImg();
+    }
+
+    //加载画册详情中其它作品图片
+    function loadDetailOtherImg() {
+        var moffset = $('#myModal').offset();
+        var st = $(document).scrollTop();
+        var h = $(document).height();
+        $('#at-works img').each(function() {
+            if (!$(this).hasClass('loaded')) {
+                var offset = $(this).offset();
+                if ((st + h) > (offset.top - moffset.top)) {
+                    $(this).attr('src', $(this).attr('data-src')).addClass('loaded');
+                }
+            }
+        });
+    }
+
+    //加载画册详情中主图片
+    $('#myModal').scroll(function() {
+        var st = $(this).scrollTop();
+        var h = $(this).height();
+        var moffset = $(this).offset();
+        lazyLoadImg(st, h, moffset);
+    });
+
+    //图片lazyload
+    function lazyLoadImg(st, h, moffset) {
+        $('#at-gallery-detail img').each(function() {
+            if (!$(this).hasClass('loaded')) {
+                var offset = $(this).offset();
+                if ((st + h) > (offset.top - moffset.top)) {
+                    $(this).attr('src', $(this).attr('data-src')).addClass('loaded');
+                }
+            }
+        });
+    }
+
+    //左右键切换画册弹出框的
+    $(window).keyup(function(e) {
+        if (!$('#myModal').hasClass('in')) {
+            //模态窗打开才能左右切换
+            return;
+        }
+
+        var id = undefined;
+        if (e.keyCode == 37) {
+            //左
+            id = tempData.view.pageMove.Preview;
+        } else if (e.keyCode == 39) {
+            //右
+            id = tempData.view.pageMove.Next;
+        } else {
+            return;
+        }
+
+        if (!id) return;
+
+        id = id.replace('live?type=view&id=', '');
+        history.pushState({
+            id: id
+        }, '', '/gallery/' + id);
+        getDetail(id);
+    });
+
+    //监听浏览器url纪录变化
+    window.addEventListener('popstate', function() {
+        var currentState = history.state;
+
+        if (!currentState && !config.fromGalleryDetail) {
+            //当没有状态同时不是画册页的操作关闭画册弹框
+            $('#myModal').modal('hide');
+            return;
+        }
+
+        if (currentState.id) {
+            //显示画册详情页
+            $('#myModal').modal('show');
+            getDetail(currentState.id);
+        }
+        if (currentState.page) {
+            //左侧导航页面
+            $('.templ').hide();
+            $(currentState.page).show().trigger('_load');
+        }
+        if (currentState.paging) {
+            //channel分页
+            config.paging && config.paging(currentState.num);
+        }
+    });
+
+    //画册详情页弹框关闭
+    $('#myModal').on('hidden.bs.modal', function() {
+
+        history.replaceState('', '', '/gallery');
+    });
+
+    //画册集中点击打开画册详细
+    $('#at-gallery-list').on('click', '.thumbnail', function(e) {
+        e.preventDefault();
+        $('#myModal').modal('show');
+        var id = $(this).attr('data-id');
+        history.pushState({
+            id: id
+        }, '', $(this).attr('data-url'));
+        getDetail(id);
+    });
+
+    //画册中点击查看详情
+    $('#at-gallery-list').on('click', '.gallery-vertical', function(e) {
+        e.preventDefault();
+        $('#myModal').modal('show');
+        var id = $(this).attr('data-id');
+        history.pushState({
+            id: id
+        }, '', $(this).attr('data-url'));
+        getDetail(id);
+    });
+
+    //画册详情中点击查看另一个画册详情
+    $('#at-works').on('click', '.gallery-vertical', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        history.pushState({
+            id: id
+        }, '', $(this).attr('data-url'));
+        getDetail(id);
+    });
+
+    //画册列表中点击收藏
+    $('#at-gallery-list').on('click', '.like', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        //未登录弹框
+        if (!artHasLogin || artHasLogin != 1) {
+            $('#loginModal').modal('show');
+            return;
+        }
+
+        var id = $(this).parents('.gallery-vertical').attr('data-id');
+        var that = $(this);
+
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'like',
+                id: id
+            }
+        }, function(response) {
+            if (response.like == 0) {
+                that.removeClass('active');
+            } else {
+                that.addClass('active');
+            }
+        });
+    });
+
+    //画册详情中点击啊收藏
+    $('#at-works').on('click', '.like', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!artHasLogin || artHasLogin != 1) {
+            location.href = '/auth/login';
+        }
+
+        var id = $(this).parents('.gallery-vertical').attr('data-id'),
+            that = $(this);
+
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'like',
+                id: id
+            }
+        }, function(response) {
+            if (response.like == 0) {
+                that.removeClass('active');
+            } else {
+                that.addClass('active');
+            }
+        });
+    });
+
+    //画册详情中点击底部列表的收藏
+    $('#at-gallery-detail').on('click', '.bar-like', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!artHasLogin || artHasLogin != 1) {
+            location.href = '/auth/login';
+        }
+
+        var that = $(this);
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'like',
+                id: tempId
+            },
+        }, function(response) {
+            if (response.feedback == '请登录后再收藏') {
+                alert(response.feedback);
+                return;
+            }
+            var num = $('#FavoriteNum').text();
+            num = parseInt(num);
+            if (response.like == 0) {
+                that.removeClass('active');
+            } else {
+                that.addClass('active');
+            }
+            $('#FavoriteNum').text(response.favoriteCount);
+
+            // alert('收藏成功');
+        });
+    });
+
+    //适应窗口初始化瀑布流
+    $(window).resize(function() {
+        initContainer();
+        var container = document.querySelector('#at-gallery-list');
+        var pckry = ('Packery' in window) && new Packery(container, {
+            itemSelector: '.gallery-vertical',
+            //gutter: 5
+        });
+    });
+
+    //初始化画册容器宽度，以便居中显示
+    function initContainer() {
+        var winWidth = $(window).width();
+        var conWidth;
+
+        if (winWidth >= (1500 + 90)) {
+            conWidth = 1500;
+            col = 5;
+        } else if (winWidth > (1200 + 90)) {
+            conWidth = 1200;
+            col = 4
+        } else if (winWidth > (900 + 90)) {
+            conWidth = 900;
+            col = 3;
+        } else if (winWidth > (600 + 90)) {
+            conWidth = 600;
+            col = 2;
+        } else if (winWidth < (600 + 90)) {
+            conWidth = 300;
+            col = 1;
+        } else {
+            conWidth = 1200;
+            col = 4;
+        }
+        $('#at-gallery-list').css('width', conWidth);
+    }
+
+    var IE = navigator.appName == "Microsoft Internet Explorer";
+    var Opera = navigator.appName.toLowerCase() == "opera";
+    var FF = !IE && !Opera;
+
+    function LoadImage(arrSrc, callBack) {
+        this.Length = arrSrc.length;
+        this.LoadedLen = 0; //已经被加载的图片个数
+        var self = this;
+        if (self.Length < 1) {
+            callBack(arrSrc);
+            return;
+        }
+
+        //经测试,OPERA与别的浏览器加载方式不同,所以特别独立开来...
+        if (Opera) {
+            for (var i = 0; i < self.Length; i++) {
+                var tmpImg = new Image();
+                tmpImg.src = arrSrc[i].Photo;
+                tmpImg.onload = function() {
+                    self.LoadedLen++;
+                    if (self.LoadedLen == self.Length && callBack) callBack(arrSrc);
+                }
+            }
+            return;
+        }
+
+        this.Load = function() {
+            self.LoadedLen++;
+            //document.getElementById("counter").innerHTML = self.LoadedLen;
+            if (self.LoadedLen < self.Length) self.DownImg();
+            else if (callBack) callBack(arrSrc);
+        }
+
+        this.DownImg = function() {
+            var tmpImg = new Image();
+            tmpImg.src = arrSrc[self.LoadedLen].Photo;
+            if (IE) {
+                if (tmpImg.readyState == "complete") self.Load();
+                else tmpImg.onreadystatechange = function() {
+                    if (this.readyState == "complete") self.Load();
+                }
+            } else tmpImg.onload = self.Load;
+        }
+        this.DownImg();
+    }
+
+    // 回到顶部
+    var topArrow = $("#top_arrow");
+    var footerHeight = $('.footer').height();
+    var ie6 = !-[1, ] && !window.XMLHttpRequest;
+    if (topArrow.length) {
+        topArrow.hide();
+        //topArrow.css('right', ($(window).width() - 960) / 2 - 66 - 10 + 'px');
+        $(window).scroll(function() {
+            //滚动高度超过100再显示按钮否则隐藏
+            if ($(window).scrollTop() > 500) {
+                topArrow.fadeIn(400);
+            } else {
+                topArrow.fadeOut(400);
+            }
+            var maxScroll = $('body').height() - $(window).height(); //最大可滚动高度
+            var hasScroll = $(window).scrollTop(); //已滚动高度
+        });
+        $('.gotop').click(function() {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+    }
+
+    //快捷导航下拉框，高度定义，隐藏滚动条
+    if ($(document).width() < 640) {
+        //61=头部的高度
+        $('.navbar-content').height($(document).height() - 61);
+    }
+    $('.navbar-mobile').on('shown.bs.collapse', function() {
+        $('.navbar-content').height($(document).height() - 61);
+        $('body').css({
+            'overflow': 'hidden'
+        });
+    });
+    $('.navbar-mobile').on('hidden.bs.collapse', function() {
+        $('body').css({
+            'overflow': ''
+        });
+    });
+    $('.navbar-mobile').on('touchmove', function(e) {
+        e.preventDefault();
+    });
+
+    //显示隐藏头部
+    var disScroll;
+    var lastScrollTop = 0;
+    var delat = 5;
+    var navHight = $('.mobile-nav').outerHeight();
+
+    $(window).scroll(function(event) {
+        disScroll = true;
+    });
+
+    setInterval(function() {
+        if (disScroll) {
+            hasScrolled();
+            disScroll = false;
+        }
+    }, 250);
+
+    function hasScrolled() {
+        var st = $(this).scrollTop();
+        var clientHeight = document.documentElement.clientHeight;
+
+        if (Math.abs(st - lastScrollTop) <= delat) {
+            return;
+        };
+
+        if (st > navHight + 120 && st > lastScrollTop) {
+            $('.mobile-nav').addClass('invisible');
+        } else {
+            if (st + $(window).height() < $(document).height()) {
+                $('.mobile-nav').removeClass('invisible');
+            }
+        }
+
+        lastScrollTop = st;
+    };
+
+    //弹出框登陆
+    $('#login-form').submit(function(e) {
+        e.preventDefault();
+
+        var that = $(this),
+            dom_u = that.find('input[name="username"]'),
+            dom_p = that.find('input[name="password"]');
+
+        if (dom_u.val() == '') {
+            alert('请输入用户名');
+            return;
+        }
+        if (dom_p.val() == '') {
+            alert('请输入密码');
+            return;
+        }
+
+        Ajax.submit({
+            url: config.server + '/auth/login',
+            data: {
+                username: dom_u.val(),
+                password: dom_p.val()
+            }
+        }, function(response) {
+            //modify by zhufei : validate by json
+            var data = eval(response);
+            if (data['result'] != true) {
+                alert(data['message']);
+                return;
+            }
+            artHasLogin = 1;
+            $('#loginModal').modal('hide');
+
+        });
+    });
+
+
+    var _form = document.createElement('form');
+    //初始化分享链接
+    config.initShareLink = function(url, title, pic) {
+        var sinaOpt = {
+            url: url,
+            title: title,
+            pic: pic
+        };
+        var s = [];
+        for (var i in sinaOpt) {
+            s.push(i + '=' + encodeURIComponent(sinaOpt[i] || ''));
+        }
+        $('.bar-item.sina').attr('href', 'http://service.weibo.com/share/share.php?' + s.join('&'));
+
+        if ('qrcode' in window) {
+            var qr = qrcode(10, 'M');
+            qr.addData(url);
+            qr.make();
+            $('#modal-qrcode .modal-content div').html(qr.createImgTag(3));
+            $('.bar-item.weixin').click(function(e) {
+                $('#modal-qrcode').modal('show');
+            })
+        }
+
+        var doubanOpt = {
+            url: url,
+            title: title,
+            image: pic
+        }
+        var s = [];
+        for (var i in doubanOpt) {
+            s.push(i + '=' + encodeURIComponent(doubanOpt[i] || ''));
+        }
+        $('.bar-item.douban').attr('href', 'http://www.douban.com/share/service?' + s.join('&'));
+
+        var lofterOpt = {
+            sourceurl: url,
+            content: '<p>' + title + '</p>',
+            image: pic,
+            from: '',
+            source: '',
+            tag: ''
+        }
+        document.body.appendChild(_form);
+        $('.bar-item.lofter').click(function(e) {
+            e.preventDefault();
+            _form.target='_blank';
+            _form.innerHTML = "";
+            _form.action = 'http://www.lofter.com/sharephoto/?';
+            _form.method = 'post';
+            for (var i in lofterOpt) {
+                if (lofterOpt.hasOwnProperty(i)) {
+                    var _input = document.createElement("textarea");
+                    _input.name = i;
+                    _input.value = lofterOpt[i].toString() || '';
+                    _form.appendChild(_input);
+                }
+            }
+            _form.submit();
+        })
+
+        var facebookOpt = {
+            's': 100,
+            'p[url]': url,
+            'p[images][0]': pic,
+            'p[summary]': title,
+            'u': ''
+        };
+        var s = [];
+        for (var i in facebookOpt) {
+            s.push(i + '=' + encodeURIComponent(facebookOpt[i] || ''));
+        }
+        $('.bar-item.facebook').attr('href', 'http://www.facebook.com/sharer/sharer.php?' + s.join('&'));
+
+        var twitterOpt = {
+            url: url,
+            image: pic,
+            text: title
+        };
+        var s = [];
+        for (var i in twitterOpt) {
+            s.push(i + '=' + encodeURIComponent(twitterOpt[i] || ''));
+        }
+        //url=http%3A%2F%2Ftnw.to%2Fp3QA1
+        //&via=thenextweb
+        //&related=thenextweb
+        //&text=California+Labor
+        $('.bar-item.twitter').attr('href', 'https://twitter.com/intent/tweet?' + s.join('&'));
+    }
+
+    //左右滑动关闭画册详情 20151028
+    $('#at-gallery-detail').addSwipeEvents().bind('swipeleft', function(evt, touch) {
+        $('#myModal').modal('hide');
+    }).bind('swiperight', function(evt, touch) {
+        $('#myModal').modal('hide');
+    })
+
+})();
+
+//顶部搜索框
+(function() {
+    var morphSearch = document.getElementById('morphsearch');
+    if(morphSearch == undefined) return;
+    var input = morphSearch.querySelector('input.morphsearch-input'),
+        ctrlClose = morphSearch.querySelector('span.morphsearch-close'),
+        isOpen = isAnimating = false,
+        // show/hide search area
+        toggleSearch = function(evt) {
+            // return if open and the input gets focused
+            if (evt.type.toLowerCase() === 'focus' && isOpen) return false;
+
+            //var offsets = morphsearch.getBoundingClientRect();
+            if (isOpen) {
+                classie.remove(morphSearch, 'open');
+
+                // trick to hide input text once the search overlay closes
+                // todo: hardcoded times, should be done after transition ends
+                if (input.value !== '') {
+                    setTimeout(function() {
+                        classie.add(morphSearch, 'hideInput');
+                        setTimeout(function() {
+                            classie.remove(morphSearch, 'hideInput');
+                            input.value = '';
+                        }, 300);
+                    }, 500);
+                }
+
+                input.blur();
+
+                $('#st-container').css('height', 'auto');
+            } else {
+                $('#st-container').css('height', '100%');
+                classie.add(morphSearch, 'open');
+            }
+            isOpen = !isOpen;
+        };
+
+    // events
+    input.addEventListener('focus', toggleSearch);
+    ctrlClose.addEventListener('click', toggleSearch);
+    // esc key closes search overlay
+    // keyboard navigation events
+    document.addEventListener('keydown', function(ev) {
+        var keyCode = ev.keyCode || ev.which;
+        if (keyCode === 27 && isOpen) {
+            toggleSearch(ev);
+        }
+    });
+
+    /***** for demo purposes only: don't allow to submit the form *****/
+    morphSearch.querySelector('button[type="submit"]').addEventListener('click', function(ev) {
+        ev.preventDefault();
+
+        //?type=search&item=all&keyword=adobe&page=1&pagenum=8
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'search',
+                item: 'all',
+                keyword: input.value,
+                page: config.page,
+                pagenum: 8
+            }
+        }, function(response) {
+            Ajax.render('#at-search-list', 'at-search-tmpl', response.news, false);
+
+            Ajax.initPagination(response.pageInfo,'#at-search-list');
+        });
+    });
+
+    $('.pagination-search').on('click', 'li', function(e){
+        e.preventDefault();
+
+        if($(this).hasClass('disabled')) return;
+
+        var page = $(this).find('a').attr('href').replace('#','');
+
+        Ajax.custom({
+            url: config.url,
+            data: {
+                type: 'search',
+                item: 'all',
+                keyword: input.value,
+                page: page,
+                pagenum: 8
+            }
+        }, function(response) {
+            Ajax.render('#at-search-list', 'at-search-tmpl', response.news, false);
+
+            Ajax.initPagination(response.pageInfo,'#at-search-list');
+        });
+
+    })
+})();

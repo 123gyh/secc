@@ -1,0 +1,1280 @@
+//debug
+var log = function(m) {
+    if (typeof console != 'undefined') {
+        console.log(m);
+    }
+};
+
+//configuration
+(function() {
+    var config = {
+        page: 1, //当前第几页，从1开始
+        pageSize: 30, //默认分页大小
+        server: location.protocol + '//' + location.host,
+        //server: 'http://arting365.com',
+        image: location.protocol + '//' + location.host + '/'
+    };
+
+    //接口地址
+    config.url = config.server + '/data/live';
+    //config.url = config.server + '/js/api.js';
+    config.nodata = '暂无数据。';
+    config.nomoredata = '暂无更多数据。';
+
+    //绝对化图片地址
+    config.absImg = function(content) {
+        if (!content) {
+            // 测试时使用相对
+            return '../content/images/common/d300x300-1.png';
+        }
+        if (content && content.indexOf('http://') == 0) {
+            return content;
+        }
+        return config.image + content;
+    };
+
+    //获取用户头像
+    config.getUserIcon = function(content) {
+        var a = config.ICON[content];
+
+        return a || config.absImg(content);
+    }
+
+    window.config = config;
+})();
+
+//html5 storage
+(function() {
+    var Storage = {
+        ACCOUNT: 'AT-ACCOUNT',
+        get: function(key, isSession) {
+            if (!this.isLocalStorage()) {
+                return;
+            }
+            var value = this.getStorage(isSession).getItem(key);
+            if (value) {
+                return JSON.parse(value);
+            } else {
+                return undefined;
+            }
+        },
+        set: function(key, value, isSession) {
+            if (!this.isLocalStorage()) {
+                return;
+            }
+            value = JSON.stringify(value);
+            this.getStorage(isSession).setItem(key, value);
+        },
+        remove: function(key, isSession) {
+            if (!this.isLocalStorage()) {
+                return;
+            }
+            this.getStorage(isSession).removeItem(key);
+        },
+        getStorage: function(isSession) {
+            return isSession ? sessionStorage : localStorage;
+        },
+        isLocalStorage: function() {
+            try {
+                if (!window.localStorage) {
+                    log('不支持本地存储');
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                log('本地存储已关闭');
+                return false;
+            }
+        }
+    };
+
+    window.Storage = Storage;
+})();
+
+//tools
+(function() {
+    var preventDefault, panel, panelBg, delay, count = 0,
+        toastPanel;
+
+    var Tools = {
+        formatCurrency1: function(content, defaultValue, unit) {
+            if (!content) {
+                return defaultValue || '--';
+            }
+
+            content = content + ''; //转字符串
+
+            var prefix, subfix, idx = content.indexOf('.');
+            if (idx > 0) {
+                prefix = content.substring(0, idx);
+                subfix = content.substring(idx, content.length);
+            } else {
+                prefix = content;
+                subfix = '';
+            }
+
+            var mod = prefix.toString().length % 3;
+            var sup = '';
+            if (mod == 1) {
+                sup = '00';
+            } else if (mod == 2) {
+                sup = '0';
+            }
+
+            prefix = sup + prefix;
+            prefix = prefix.replace(/(\d{3})/g, '$1,');
+            prefix = prefix.substring(0, prefix.length - 1);
+            if (sup.length > 0) {
+                prefix = prefix.replace(sup, '');
+            }
+            if (subfix) {
+                if (subfix.length == 2) {
+                    subfix += '0';
+                } else if (subfix.length == 1) {
+                    subfix += '00';
+                }
+                subfix = subfix.substring(0, 3);
+            }
+            return prefix + subfix;
+        },
+        strToDate: function(str) { //字符串转日期，yyyy-MM-dd hh:mm:ss
+            var tempStrs = str.split(" ");
+            var dateStrs = tempStrs[0].split("-");
+            var year = parseInt(dateStrs[0], 10);
+            var month = parseInt(dateStrs[1], 10) - 1;
+            var day = parseInt(dateStrs[2], 10);
+
+            var timeStrs = tempStrs[1].split(":");
+            var hour = parseInt(timeStrs[0], 10);
+            var minute = parseInt(timeStrs[1], 10) - 1;
+            var second = parseInt(timeStrs[2], 10);
+            var date = new Date(year, month, day, hour, minute, second);
+            return date;
+        },
+        getQueryValue: function(key) {
+            var q = location.search,
+                keyValuePairs = new Array();
+
+            if (q.length > 1) {
+                var idx = q.indexOf('?');
+                q = q.substring(idx + 1, q.length);
+            } else {
+                q = null;
+            }
+
+            if (q) {
+                for (var i = 0; i < q.split("&").length; i++) {
+                    keyValuePairs[i] = q.split("&")[i];
+                }
+            }
+
+            for (var j = 0; j < keyValuePairs.length; j++) {
+                if (keyValuePairs[j].split("=")[0] == key) {
+                    // 这里需要解码，url传递中文时location.href获取的是编码后的值
+                    // 但FireFox下的url编码有问题
+                    return decodeURI(keyValuePairs[j].split("=")[1]);
+
+                }
+            }
+            return '';
+        },
+        formatDate: function(content, type) {
+            var pattern = "yyyy-MM-dd hh:mm";
+            switch (type) {
+                case 1:
+                    pattern = "yyyy年M月d日";
+                    break;
+                case 2:
+                    pattern = "hh:mm";
+                    break;
+                case 3:
+                    pattern = "yyyy.M.d";
+                    break;
+                case 4:
+                    pattern = "yyyy-MM-dd hh:mm:ss";
+                    break;
+                case 5:
+                    pattern = "yyyy年MM月";
+                    break;
+                case 6:
+                    pattern = "yyyy-MM-dd";
+                    break;
+                case 7:
+                    pattern = "yyyy/MM/dd hh:mm";
+                    break;
+                default:
+                    pattern = !!type ? type : pattern;
+                    break;
+            }
+            if (isNaN(content) || content == null) {
+                return content;
+            } else if (typeof(content) == 'object') {
+                var y = dd.getFullYear(),
+                    m = dd.getMonth() + 1,
+                    d = dd.getDate();
+                if (m < 10) {
+                    m = '0' + m;
+                }
+                var yearMonthDay = y + "-" + m + "-" + d;
+                var parts = yearMonthDay.match(/(\d+)/g);
+                var date = new Date(parts[0], parts[1] - 1, parts[2]);
+                return format(date, pattern);
+            } else {
+                var date = new Date(parseInt(content));
+                return format(date, pattern);
+            }
+        },
+        // 获取窗口尺寸，包括滚动条
+        showDate: function(content) {
+            if (!content) {
+                return '--';
+            }
+            if ((content.toString()).length == 10)
+                content = content + '000';
+
+            // var d0 = new Date(),
+            //     d1 = new Date(parseInt(content));
+
+            // var y = d0.getFullYear() - d1.getFullYear(),
+            //     m = d0.getMonth() - d1.getMonth(),
+            //     d = d0.getDate() - d1.getDate(),
+            //     h = d0.getHours() - d1.getHours(),
+            //     mm = d0.getMinutes() - d1.getMinutes();
+
+            // if (y > 0) return y + '年前';
+            // if (m > 0) return m + '月前';
+            // if (d > 0) return d + '天前';
+            // if (h > 0) return h + '小时前';
+            // if (mm > 0) return mm + '分钟前';
+            // return '1分钟';
+
+            var nowTime = new Date(),
+                hisTime = new Date(parseInt(content));
+
+            diffValue = nowTime - hisTime,
+            result='',
+
+            minute = 1000 * 60,
+            hour = minute * 60,
+            day = hour * 24,
+            halfamonth = day * 15,
+            month = day * 30,
+            year = month * 12,
+
+            _year = diffValue/year,
+            _month =diffValue/month,
+            _week =diffValue/(7*day),
+            _day =diffValue/day,
+            _hour =diffValue/hour,
+            _min =diffValue/minute;
+
+            if(_year>=1) result=parseInt(_year) + "年前";
+            else if(_month>=1) result=parseInt(_month) + "月前";
+            else if(_week>=1) result=parseInt(_week) + "周前";
+            else if(_day>=1) result=parseInt(_day) +"天前";
+            else if(_hour>=1) result=parseInt(_hour) +"小时前";
+            else if(_min>=1) result=parseInt(_min) +"分钟前";
+            else result="刚刚";
+            return result;
+
+
+        },
+        getWindow: function() {
+            return {
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+        },
+        // 获取文档尺寸，不包括滚动条但是高度是文档的高度
+        getDocument: function() {
+            var doc = document.documentElement || document.body;
+            return {
+                width: doc.clientWidth,
+                height: doc.clientHeight
+            };
+        },
+        // 获取屏幕尺寸
+        getScreen: function() {
+            return {
+                width: screen.width,
+                height: screen.height
+            };
+        },
+        // 显示、禁用滚动条
+        showOrHideScrollBar: function(isShow) {
+            preventDefault = preventDefault || function(e) {
+                e.preventDefault();
+            };
+            (document.documentElement || document.body).style.overflow = isShow ? 'auto' : 'hidden';
+            // 手机浏览器中滚动条禁用取消默认touchmove事件
+            if (isShow) {
+                // 注意这里remove的事件必须和add的是同一个
+                document.removeEventListener('touchmove', preventDefault, false);
+            } else {
+                document.addEventListener('touchmove', preventDefault, false);
+            }
+        },
+        // 显示对话框
+        showDialog: function() {},
+        // 显示着遮罩曾
+        showOverlay: function() {},
+        // 显示确认框
+        showConfirm: function(msg, yesCallback, noCallback) {
+            var opt = {};
+            if (typeof msg == 'object') {
+                opt = msg;
+            } else {
+                opt.message = msg;
+                opt.yesCallback = yesCallback;
+                opt.noCallback = noCallback;
+            }
+            opt.type = 'confirm';
+            opt.showTitle = true;
+            opt.showTip = false;
+
+            this.showPanel0(opt);
+        },
+        // 显示提示
+        showAlert: function(msg, tick, callback) {
+            var opt = {};
+            if (typeof msg == 'object') {
+                opt = msg;
+            } else {
+                opt.message = msg;
+                opt.tick = tick;
+                opt.yesCallback = callback;
+            }
+            opt.type = 'alert';
+
+            this.showPanel0(opt);
+        },
+        // 显示加载框
+        showLoading: function() {
+            $('#zj-loading').show();
+        },
+        hideLoading: function() {
+            $('#zj-loading').hide();
+        },
+        showTip: function(msg, tick, callback) {
+            this.setPanelBtnText('确认');
+            this.hidePanelTip();
+            this.showPanel('message', msg, tick, callback);
+        },
+        //设置OK上文本
+        setPanelBtnText: function(text) {
+            panel = panel || $('#zj-panel');
+            if (panel.find('.btn-ok')) {
+                panel.find('.btn-ok').val(text);
+            }
+        },
+        //隐藏panel-tips
+        hidePanelTip: function() {
+            panel = panel || $('#zj-panel');
+            panel.find('.panel-tips').hide();
+        },
+        showPanel: function(type, message, tick, yesCallback, noCallback) {
+            panel = panel || $('#zj-panel');
+            panelBg = panelBg || $('#zj-panel-bg');
+            type = type || 'error';
+            message = message || '提示信息';
+            config.onYesClick = yesCallback;
+            config.onNoClick = noCallbck;
+
+            panel.find('.panel-text p').html(message);
+            panel.css('margin-top', -(panel.height() / 2)).show();
+            panelBg.show();
+            if (type == 'confirm') {
+                panel.find('.btn-ok').hide();
+                panel.find('.btn-yes').show();
+                panel.find('.btn-no').show();
+            } else {
+                panel.find('.btn-ok').show();
+                panel.find('.btn-yes').hide();
+                panel.find('.btn-no').hide();
+            }
+
+            if (!!tick)
+                delay = setTimeout(function() {
+                    panel.hide();
+                    panelBg.hide();
+
+                    if (typeof config.onYesClick == 'function') {
+                        config.onYesClick();
+                        config.onYesClick = undefined;
+                    }
+                }, tick);
+        },
+        showPanel0: function(options) {
+            panel = panel || $('#zj-panel');
+            panelBg = panelBg || $('#zj-panel-bg');
+            options = options || {};
+
+            var type = options.type || 'error',
+                message = options.message || '',
+                tick = options.tick || 0,
+                okText = options.okText || '确定',
+                cancelText = options.cancelText || '取消',
+                showTitle = options.showTitle || false,
+                showTips = options.showTips || false,
+                tipsText = options.tipsText || '';
+
+            config.onYesClick = options.yesCallback;
+            config.onNoClick = options.noCallback;
+            config.onTipsClick = options.tipsCallback;
+
+            if (showTitle) {
+                panel.find('.panel-title').show();
+            } else {
+                panel.find('.panel-title').hide();
+            }
+            if (showTips) {
+                panel.find('.panel-tips').show();
+            } else {
+                panel.find('.panel-tips').hide();
+            }
+            if (okText) {
+                panel.find('.btn-ok').text(okText);
+            }
+            if (cancelText) {
+                panel.find('.btn-cancel').text(cancelText);
+            }
+            if (tipsText) {
+                panel.find('.panel-tips').html(tipsText);
+            }
+            if (type == 'confirm') {
+                panel.find('.btn-ok').show();
+                panel.find('.btn-cancel').show();
+            } else {
+                panel.find('.btn-ok').show();
+                panel.find('.btn-cancel').hide();
+            }
+            panel.find('.panel-text').html(message);
+            panel.css('margin-top', -(panel.height() / 2)).show();
+            panelBg.show();
+
+            if (tick > 1000) {
+                panel.find('.panel-tick').text(tick / 1000);
+                delay = setInterval(function() {
+                    if (count < tick - 1000) {
+                        count = count + 1000;
+                        panel.find('.panel-tick').text((tick - count) / 1000);
+                    } else {
+                        end();
+                        count = 0;
+                        clearInterval(delay);
+                    }
+                }, 1000);
+            } else if (tick <= 1000 && tick > 0) {
+                delay = setTimeout(function() {
+                    end();
+                }, tick);
+            }
+
+            function end() {
+                panel.hide();
+                panelBg.hide();
+
+                if (typeof config.onTipsClick == 'function') {
+                    config.onTipsClick();
+                    config.onTipsClick = undefined;
+                } else if (typeof config.onYesClick == 'function') {
+                    config.onYesClick();
+                    config.onYesClick = undefined;
+                }
+            }
+        },
+        hidePanel: function(yesClick) {
+            if (delay) {
+                clearTimeout(delay);
+            }
+            if (!panel) {
+                return;
+            }
+            panel.hide();
+            panelBg.hide();
+
+            if (yesClick) {
+                typeof config.onYesClick == 'function' && config.onYesClick();
+            } else {
+                typeof config.onNoClick == 'function' && config.onNoClick();
+            }
+            config.onYesClick = undefined;
+            config.onNoClick = undefined;
+        },
+        showToast: function(msg, tick) {
+            toastPanel = toastPanel || $('#zj-toast');
+            tick = tick || 600;
+
+            if (delay) {
+                clearTimeout(delay);
+            }
+
+            toastPanel.find('span').text(msg);
+            toastPanel.show();
+            delay = setTimeout(function() {
+                toastPanel.hide();
+            }, tick);
+        },
+        isIPad: function() {
+            //5.0 (iPad; CPU OS 8_1_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12B435
+            return (/iPad/gi).test(navigator.appVersion);
+        },
+        getParam: function() {
+            var path = location.pathname;
+
+            if (!path) {
+                return undefined;
+            }
+            path = path.split('/');
+            if (path.length > 0) {
+                return path[path.length - 1];
+            }
+            return undefined;
+        }
+    };
+
+    function format(date, pattern) {
+        var that = date;
+        var o = {
+            "M+": that.getMonth() + 1,
+            "d+": that.getDate(),
+            "h+": that.getHours(),
+            "m+": that.getMinutes(),
+            "s+": that.getSeconds(),
+            "q+": Math.floor((that.getMonth() + 3) / 3),
+            "S": that.getMilliseconds()
+        };
+        if (/(y+)/.test(pattern)) {
+            pattern = pattern.replace(RegExp.$1, (that.getFullYear() + "")
+                .substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(pattern)) {
+                pattern = pattern.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+            }
+        }
+        return pattern;
+    };
+
+    window.Tools = Tools;
+})();
+
+//artemplate config
+(function() {
+
+    template.openTag = "<!--[";
+    template.closeTag = "]-->";
+
+    // 模板帮助方法，绝对化图片地址
+    template.helper('$absImg', function(content, defaultValue) {
+        return config.absImg(content);
+    });
+
+    // 模板帮助方法，获取用户头像
+    template.helper('$getUserIcon', function(content) {
+        return config.getUserIcon(content);
+    });
+
+    // 模板帮助方法，转换时间戳成字符串
+    template.helper('$formatDate', function(content, type, defaultValue) {
+        if (content) {
+            if (content.length == 10)
+                content = content + '000';
+            return Tools.formatDate(content, type);
+        } else {
+            return defaultValue || '--';
+        }
+    });
+
+    // 模板帮助方法，转换时间戳成字符串
+    template.helper('$strDate', function(content) {
+        if (!content) {
+            return '--';
+        }
+        if ((content.toString()).length == 10)
+            content = content + '000';
+
+        // var d0 = new Date(),
+        //     d1 = new Date(parseInt(content));
+
+        // var y = d0.getFullYear() - d1.getFullYear(),
+        //     m = d0.getMonth() - d1.getMonth(),
+        //     d = d0.getDate() - d1.getDate(),
+        //     h = d0.getHours() - d1.getHours(),
+        //     mm = d0.getMinutes() - d1.getMinutes();
+
+        // if (y > 0) return y + '年前';
+        // if (m > 0) return m + '月前';
+        // if (d > 0) return d + '天前';
+        // if (h > 0) return h + '小时前';
+        // if (mm > 0) return mm + '分钟前';
+        // return '1分钟';
+
+
+        var nowTime = new Date(),
+            hisTime = new Date(parseInt(content));
+            
+        diffValue = nowTime - hisTime,
+        result='',
+
+        minute = 1000 * 60,
+        hour = minute * 60,
+        day = hour * 24,
+        halfamonth = day * 15,
+        month = day * 30,
+        year = month * 12,
+
+        _year = diffValue/year,
+        _month =diffValue/month,
+        _week =diffValue/(7*day),
+        _day =diffValue/day,
+        _hour =diffValue/hour,
+        _min =diffValue/minute;
+
+        if(_year>=1) result=parseInt(_year) + "年前";
+        else if(_month>=1) result=parseInt(_month) + "月前";
+        else if(_week>=1) result=parseInt(_week) + "周前";
+        else if(_day>=1) result=parseInt(_day) +"天前";
+        else if(_hour>=1) result=parseInt(_hour) +"小时前";
+        else if(_min>=1) result=parseInt(_min) +"分钟前";
+        else result="刚刚";
+        return result;
+            
+    });
+
+    //模板帮助方法，编码url参数
+    template.helper('$encodeUrl', function(content) {
+        return encodeURIComponent(content);
+    });
+
+    //模板帮助方法，格式化货币
+    template.helper('$formatCurrency1', function(content, defaultValue, unit) {
+        if (!content) {
+            return defaultValue || '--';
+        }
+
+        content = content + ''; //转字符串
+
+        var prefix, subfix, idx = content.indexOf('.');
+        if (idx > 0) {
+            prefix = content.substring(0, idx);
+            subfix = content.substring(idx, content.length);
+        } else {
+            prefix = content;
+            subfix = '';
+        }
+
+        var mod = prefix.toString().length % 3;
+        var sup = '';
+        if (mod == 1) {
+            sup = '00';
+        } else if (mod == 2) {
+            sup = '0';
+        }
+
+        prefix = sup + prefix;
+        prefix = prefix.replace(/(\d{3})/g, '$1,');
+        prefix = prefix.substring(0, prefix.length - 1);
+        if (sup.length > 0) {
+            prefix = prefix.replace(sup, '');
+        }
+        if (subfix) {
+            if (subfix.length == 2) {
+                subfix += '0';
+            } else if (subfix.length == 1) {
+                subfix += '00';
+            }
+            subfix = subfix.substring(0, 3);
+        }
+
+        return prefix + subfix;
+        // return content + (unit || '');
+    });
+
+    //模板帮助方法，\r\n替换换行
+    template.helper('$convertRN', function(content) {
+        if (!content) {
+            return '--';
+        }
+        return content.replace(/\r\n/gi, '<br/>');
+    });
+
+    //模板帮助方法，根据序列值添加样式名
+    template.helper('$addClassByIdx', function(i, v, className) {
+        if (i == v) {
+            return className || '';
+        }
+    });
+
+    //模板帮助方法，截取内容长度添加省略号
+    template.helper('$ellipsis', function(content, length) {
+        var v = content.replace(/[^\x00-\xff]/g, '__').length;
+        if (v / 2 > length) {
+            return content.substring(0, length) + '...';
+        }
+        return content;
+    });
+
+    //模板帮助方法，格式化货币
+    template.helper('$formatCurrency', function(content, i) {
+        if (!content) {
+            return '--';
+        }
+
+        //1200.55->1200<span class="c-red f-s">.55</span>
+        var p, f, idx = content.indexOf('.');
+        if (idx > 0) {
+            p = content.substring(0, idx);
+            f = content.substr(idx, 3);
+        } else {
+            p = content;
+            f = '.00';
+        }
+        return p + '<span class="f-s">' + f + '</span>';
+    });
+
+    //模板帮助方法，确定图库详情下瀑布流元素宽高
+    template.helper('$getPullStyle', function(width, height) {
+        if (!width || !height) {
+            return '';
+        }
+
+        var ww = $(window).width(),w,h;
+        if(ww < 768){
+            //设置两列瀑布流，当前布局每个单元有34的左右间距
+            w = (ww - 46) / 2 - 34;
+        }else{
+            w = 211;
+        }
+        h = w * height / width;
+        return 'width:' + w + 'px; height:' + h + 'px;';
+    });
+})();
+
+(function() {
+    /**
+     * 接口基类
+     */
+    function Api(options) {
+        this.options = options || {};
+        //extends(options,this.options);
+        this.timeout = 15000; //请求超时时间
+        this.cache = true; //是否缓存
+        this.defaultListTmpl = 'at-list-tmpl';
+        this.defaultListEle = $('#at-list');
+        this.defaultDetailTmpl = 'at-detail-tmpl';
+        this.defaultDetailEle = '#at-detail';
+        this.isLoading = false; //是否正在请求
+        this.hasNext = true; //是否有下一页
+        this.queue = {}; //请求队列
+        this.tempPage = {}; //分页dom
+        this.onEnd = function() {}; //当请求都完成
+    }
+
+    Api.prototype._init = function() {
+        var spinnings = this.spinnings;
+
+        return this;
+    }
+
+    Api.prototype.atpaging = function(options, callback, callbackError) {
+        var renderFor = options.renderFor || this.defaultListTmpl,
+            renderEle = options.renderEle || this.defaultListEle,
+            timeKey = options.timeKey || 'createAt',
+            isFirst = options.data.page == 1, //是否第一次请求
+            that = this,
+            renderMoreTmpl = options.renderMoreTmpl;
+
+        options.logtype = 'paging';
+
+        $(renderEle).html('<div class="at-loading"></div>');
+
+        $('.pagination-row').hide();
+
+        config.renderEle = $(renderEle);
+        config.renderFor = renderFor;
+        config.renderMoreTmpl = renderMoreTmpl;
+
+        that.ajaxSend(options, function(response, textStatus, jqXHR) {
+            var body = response.news;
+            if (!body) {
+                //body为对象且非数组
+                body = response[options.key];
+            }
+
+            if (options.key == '-1') {
+                //设置key=-1，获取所有返回数据
+                body = response;
+                body.news = prepareData(body.news, options.data.pagenum);
+            } else {
+                body = prepareData(body, options.data.pagenum);
+            }
+
+            that.hasNext = body.length == options.data.pagenum;
+
+            if (body.length == 0) {
+                //数据没有结果显示无数据提示
+                if (isFirst) {
+                    $(renderEle).html(config.nodata);
+                }
+            } else {
+                that.render(renderEle, renderFor, body);
+            }
+
+            initPagination(response.pageInfo, renderEle);
+
+            if (typeof callback == 'function') {
+                callback(response);
+            }
+        }, callbackError);
+    };
+
+    /**
+     * 分页查询
+     *
+     * @param options-封装请求url，请求数据，请求类型，渲染容器，渲染模版
+     * @param callback-请求成功后执行的回调方法
+     * @param callbackError-请求失败后执行的回调方法
+     */
+    Api.prototype.paging = function(options, callback, callbackError) {
+        var renderFor = options.renderFor || this.defaultListTmpl,
+            renderEle = options.renderEle || this.defaultListEle,
+            timeKey = options.timeKey || 'createAt',
+            isFirst = options.data.page == 1, //是否第一次请求
+            that = this;
+
+        options.logtype = 'paging';
+
+        var np = findByKey(that.tempPage, options.url);
+        var next = $('#np-' + np),
+            nextStr = '<div id="np-' + np + '" class="nextpage"></div>';
+
+        if (options.nextButton) {
+            next = $(options.nextButton.sel);
+        }
+        if (next.length == 0) {
+            $(renderEle).after(nextStr);
+            next = $('#np-' + np);
+        }
+        next.html(' ');
+
+        if (isFirst) {
+            //查第一页数据一定清空当前容器
+            $(renderEle).html('');
+        }
+
+        that.ajaxSend(options, function(response, textStatus, jqXHR) {
+            var body = response.news;
+            if (!body) {
+                //body为对象且非数组
+                body = response[options.key] || [];
+            }
+
+            that.hasNext = body.length == options.data.pagenum;
+
+            if (body.length == 0) {
+                //数据没有结果显示无数据提示
+                if (isFirst) {
+                    next.hide();
+                    $(renderEle).html(config.nodata);
+                }
+            } else {
+                if (options.key == '-1') {
+                    //设置key=-1，获取所有返回数据
+                    body = response;
+                }
+                next.show();
+                that.render(renderEle, renderFor, body, !isFirst);
+                if (!that.hasNext) {
+                    //没有下一页显示无更多数据提示
+                    //next.html(config.nomoredata);
+                    next.hide();
+                } else {
+                    options.nextButton && next.html(options.nextButton.text);
+                }
+            }
+
+            if (typeof callback == 'function') {
+                callback(response);
+            }
+        }, callbackError);
+    };
+
+    /**
+     * 详情查询
+     *
+     * @param options-封装请求url，请求数据，请求类型，渲染容器，渲染模版
+     * @param callback-请求成功后执行的回调方法
+     * @param callbackError-请求失败后执行的回调方法
+     */
+    Api.prototype.detail = function(options, callback, callbackError) {
+        var renderFor = options.renderFor || this.defaultDetailTmpl,
+            renderEle = options.renderEle || this.defaultDetailEle,
+            that = this;
+
+        options.logtype = 'detail';
+
+        if (options.showLoading) {
+            $(renderEle).html('<div class="loading">加载中...</div>');
+        }
+
+        that.ajaxSend(options, function(response, textStatus, jqXHR) {
+            var data = response || {};
+            render(renderEle, renderFor, data);
+            if (typeof callback == 'function') {
+                callback(response);
+            }
+        }, callbackError);
+    };
+    /**
+     * 表单提交
+     *
+     * @param options-传入的参数
+     * @param callback-请求成功后执行的回调方法
+     * @param callbackError-请求失败后执行的回调方法
+     */
+    Api.prototype.submit = function(options, callback, callbackError) {
+        var formData,
+            that = this;
+
+        options.type = options.type || 'POST';
+        options.logtype = 'submit';
+
+        var isForm = !!options.data.length;
+        if (isForm) {
+            formData = options.data.serializeArray();
+            options.data.find('input[type="submit"]').attr('disabled', true);
+        } else {
+            formData = options.data;
+        }
+        options.data = formData;
+
+        that.ajaxSend(options, function(response, textStatus, jqXHR) {
+            if (isForm) {
+                options.data.find('input[type="submit"]').removeAttr('disabled');
+            }
+            if (typeof callback == 'function') {
+                callback(response);
+            }
+        }, function(jqXHR, textStatus, errorThrown) {
+            if (isForm) {
+                options.data.find('input[type="submit"]').removeAttr('disabled');
+            }
+            if (typeof callbackError == 'function') {
+                callbackError(jqXHR, textStatus, errorThrown);
+            }
+        });
+    };
+    /**
+     * 自定义查询
+     *
+     * @param options-封装请求url，请求数据，请求类型
+     * @param callback-请求成功后执行的回调方法
+     * @param callbackError-请求失败后执行的回调方法
+     */
+    Api.prototype.custom = function(options, callback, callbackError) {
+        var that = this;
+        options = options || {};
+        options.logtype = 'custom';
+
+        that.ajaxSend(options, callback, callbackError);
+    };
+
+    /**
+     * jquery.ajax
+     */
+    Api.prototype.ajaxSend = function(options, callback, callbackError) {
+        var that = this;
+        that.isLoading = true;
+        that.queue[options.url] = true;
+
+        //添加默認設置
+        options = options || {};
+        //options.url = options.url + '.js'; //测试使用模拟接口
+        //console.log(options.url);
+        $.ajax({
+            url: options.url,
+            data: options.data,
+            type: options.type || 'GET',
+            dataType: 'text',
+            timeout: that.timeout,
+            cache: that.cache,
+            headers: {
+                // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': csrfToken
+            }
+        }).then(function(response, textStatus, jqXHR) {
+            try {
+                response = eval('(' + response + ')'); //測試模擬接口
+            } catch (e) {}
+            that.isLoading = false;
+            delete(that.queue[options.url]);
+
+            if (!response) {
+                logged(options.logtype, response.message || response, options.url);
+                if (typeof callbackError == 'function') {
+                    callbackError('Malformed', response);
+                }
+                return;
+            }
+
+            if (typeof callback == 'function') {
+                callback(response);
+            }
+            if (isEmpety(that.queue) && typeof that.onEnd == 'function') {
+                that.onEnd.call(this);
+            }
+        }, function(jqXHR, textStatus, errorThrown) {
+            that.isLoading = false;
+            delete(that.queue[options.url]);
+
+            logged(options.logtype, textStatus, options.url);
+            if (typeof callbackError == 'function') {
+                callbackError(textStatus);
+            }
+
+            if (isEmpety(that.queue) && typeof that.onEnd == 'function') {
+                that.onEnd.call(this);
+            }
+        });
+    }
+
+    /**
+     * 数据渲染到模板
+     * @param renderEle-渲染容器
+     * @param renderFor-渲染模版
+     * @param data-数据
+     * @param isAppend-是否追加
+     */
+    function render(renderEle, renderFor, data, isAppend) {
+        if ($('#' + renderFor).length > 0 && data) {
+            if (typeof data.length != 'undefined') {
+                data = {
+                    'list': data
+                };
+            }
+            var result = tmpl(renderFor, data);
+            if (isAppend) {
+                $(renderEle).append(result);
+            } else {
+                $(renderEle).html(result);
+            }
+        }
+    }
+
+    function tmpl(renderFor, data) {
+        return template.render(renderFor, data);
+    }
+
+    /**
+     * 记录接口的错误日志
+     * @param type-接口请求类型
+     * @param message-错误内容
+     * @param url-错误地址
+     */
+    function logged(type, message, url) {
+        if (Tools.isIPad()) {
+            Tools.loadURL('log:' + '[' + type + '] ' + message + ':' + url);
+        } else {
+            log('[' + type + '] ' + message + ':' + url, 2);
+        }
+    }
+
+    //判断对象是否为空
+    function isEmpety(obj) {
+        var flag = true;
+        for (var i in obj) {
+            flag = false;
+            break;
+        }
+
+        return flag;
+    }
+
+    function findByKey(obj, key) {
+        var arr = [],
+            tar;
+        for (var i in obj) {
+            arr.push(obj[i]);
+            if (key == i) {
+                tar = obj[i];
+            }
+        }
+
+        if (arr.length == 0) return obj[key] = 1;
+        if (tar) return tar;
+        arr = arr.sort();
+        return obj[key] = arr[arr.length - 1] + 1;
+    }
+
+    //准备滚动加载的数据
+    function prepareData(data, size) {
+        var prevData = [],
+            moreData = [];
+        for (var i in data) {
+            if (i < size / 2) {
+                prevData.push(data[i]);
+            } else {
+                moreData.push(data[i]);
+            }
+        }
+        data = prevData;
+        config.moreData = moreData;
+        return data;
+    }
+
+    function initPagination(data, renderEle) {
+        var temp = data || {
+            current_page: 2,
+            last_page: 3,
+            per_page: 3,
+            total: 10
+        };
+
+        temp.current_page = parseInt(temp.current_page);
+        temp.total_page = parseInt(temp.total);
+        temp.per_page = parseInt(temp.per_page);
+
+        var p = ~~(temp.total_page / temp.per_page);
+        var q = (temp.total_page % temp.per_page);
+        temp.total_page = q == 0 ? p : p + 1;
+
+        temp.prev_page = temp.current_page == 1 ? 1 : temp.current_page - 1;
+        temp.next_page = temp.current_page == temp.total ? temp.current_page : temp.current_page + 1;
+        var start = temp.current_page - 2,
+            end = temp.current_page + 2;
+
+        if (temp.total_page <= 5) {
+            start = 1;
+            end = temp.total_page;
+        } else {
+            if (start < 1) {
+                start = 1;
+                end = start + 4;
+            }
+            if (end > temp.total_page) {
+                end = temp.total_page;
+                start = temp.total_page - 4;
+            }
+        }
+
+        var result = '';
+        result += '<li' + (temp.current_page == 1 ? ' class="disabled"' : '') + '><a href="#' + temp.prev_page + '">&lt; 上一页</a></li>';
+        for (var i = start; i <= end; i++) {
+            result += '<li' + (temp.current_page == i ? ' class="active"' : '') + '><a href="#' + i + '">' + i + '</a></li>';
+        }
+        result += '<li' + (temp.current_page == temp.total_page ? ' class="disabled"' : '') + '><a href="#' + temp.next_page + '">下一页 &gt;</a></li>';
+
+        $(renderEle).next().find('.pagination').html(result);
+    }
+
+    //抛出公用方法，保持模板调用入口唯一
+    Api.prototype.render = render;
+    Api.prototype.logged = logged;
+    Api.prototype.initPagination = initPagination;
+
+    window.Api = Api;
+})();
+
+(function() {
+    /**
+     * 靜態方法
+     */
+    window.Ajax = new Api();
+})();
+
+
+function loadedHandler() {
+    if (CKobject.getObjectById('ckplayer_a1').getType()) {
+        CKobject.getObjectById('ckplayer_a1').addListener('play', playcallback);
+    } else {
+        CKobject.getObjectById('ckplayer_a1').addListener('play', 'playcallback');
+    }
+}
+
+var flashvars = {
+    c: 0,
+    b: 1,
+    p: 2,
+    loaded: 'loadedHandler' //这里的回调必须是个全局的
+};
+
+window.playvideo = function(n, dom, playcallback0, i) {
+    var bw = $('body').width(),
+        w = bw - 30,
+        h;
+
+    //768,992,1200,1600
+    //720
+    if(bw <= 768){
+        w = bw-30
+    }else if(bw <= 992){
+        w = 720;
+    }else if(bw <= 1200){
+        w = 900;
+    }else if(bw <= 1600){
+        w = 720;
+    }else{
+        w = 720;
+    }
+    h = ~~(w * 476 / 760);
+
+    $('#' + (dom || 'a1')).css({
+        width: w,
+        height: h
+    });
+
+    flashvars.f = n;
+    flashvars.i = i;
+    window.playcallback = playcallback0;
+    var video = [];
+    video.push(n);
+
+    if (false && CKobject.isHTML5()) {
+        var support = ['iPad', 'iPhone', 'ios', 'android+false', 'msie10+false'];
+        CKobject._K_(dom || 'a1').innerHTML = '';
+        CKobject.embedHTML5(dom || 'a1', 'ckplayer_a1', '100%', '100%', video, flashvars, support);
+    } else {
+        var params = {
+            bgcolor: '#FFF',
+            allowFullScreen: true,
+            allowScriptAccess: 'always',
+            wmode: 'transparent'
+        };
+        CKobject.embed('/assets/ckplayer/ckplayer.swf', dom || 'a1', 'ckplayer_a1', '100%', '100%', false, flashvars, video, params);
+    }
+
+}
+
+window.onresize = function() {
+        var bw = $('body').width(),
+        w = bw - 30,
+        h;
+
+    //768,992,1200,1600
+    //720
+    if(bw <= 768){
+        w = bw-30
+    }else if(bw <= 992){
+        w = 720;
+    }else if(bw <= 1200){
+        w = 900;
+    }else if(bw <= 1600){
+        w = 720;
+    }else{
+        w = 720;
+    }
+    h = ~~(w * 476 / 760);
+
+
+    $('#a1').css({
+        width: w,
+        height: h
+    });
+    if ($('#a1').find('video').length > 0) {
+        $('#a1 video').css({
+            width: w,
+            height: h
+        });
+    }
+}
