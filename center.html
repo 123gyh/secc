@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title> 基本信息 - Arting365 - 创意门户网站 - 打开Arting365，连接好设计！ </title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_389081_ghlxpd6dx0vk7qfr.css">
     <!-- 自己的Css样式库 -->
     <link rel="stylesheet" href="assets/css/center.css">
     <link rel="stylesheet" href="assets/images/tou2.png">
@@ -23,7 +24,7 @@
                 <div class="xinxi">
                     <ul>
                         <li class="zhizhen"><a href="#">基本信息</a></li>
-                        <li><a href="#">毕业院校</a></li>
+                        <li><a href="#">通讯信息</a></li>
                         <li><a href="#">工作信息</a></li>
                         <li><a href="#">更换手机</a></li>
                         <li><a href="#">更换邮箱</a></li>
@@ -89,24 +90,83 @@
                             <p>出生日期
                                 <input type="" name="" value="2017-08-15">
                             </p>
-                            <p class="xialak">
+                            <div class="xialak">
                                 <span>职业</span>
-                                <input type="text" value="">
-                                <select name="" id="">
-                                    <option value="">-请选择-</option>
-                                    <option value="">平面设计师</option>
-                                    <option value="">插画师</option>
-                                    <option value="">多媒体设计师</option>
-                                    <option value="">网页设计师</option>
-                                    <option value="">交互设计师</option>
-                                </select>
-                            </p>
+                                <div class="xialak-wenzi">
+                                    在校学生
+                                    <input type="text" aria-haspopup="true" role="button" disabled="">
+                                </div>
+                                <!-- 点击的下拉框 -->
+                                <!--  <input type="text" value=""> -->
+                                <!-- <select name="" id="">
+    <option value="">-请选择-</option>
+    <option value="">平面设计师</option>
+    <option value="">插画师</option>
+    <option value="">多媒体设计师</option>
+    <option value="">网页设计师</option>
+    <option value="">交互设计师</option>
+</select>
+ -->
+                            </div>
+                            <input type="submit" class="tijiaok" value="保存">
                         </div>
                     </form>
                 </div>
             </div>
+            <!-- 通讯信息 -->
+            <div class="tongxun">
+                <h1>通讯信息</h1>
+                <form action="#">
+                    <input type="hidden">
+                    <div class="shuru">
+                        <span>QQ号码</span>
+                        <input type="text" placeholder="QQ号码">
+                    </div>
+                    <div class="shuru">
+                        <span>联系地址</span>
+                        <input type="text" placeholder="联系地址">
+                    </div>
+                    <div class="shuru">
+                        <span>邮政编码</span>
+                        <input type="text" placeholder="邮政编码">
+                    </div>
+                    <div class="shuru select">
+                        <span>我的家乡</span>
+                        <div class="kuang">
+                            -请选择-
+                            <i class=" xiala iconfont icon-xia"></i>
+                            <!-- 搜索框 -->
+                            <div class="xuanx">
+                                <input type="text" class="xuanx_ss">
+                                <div class="xuanxk">
+                                    <ul>
+                                        <li class="xuanxk_color">-请选择-</li>
+                                        <li> 北京</li>
+                                        <li>上海 </li>
+                                        <li> 天津 </li>
+                                        <li> 重庆</li>
+                                        <li> 黑龙江</li>
+                                        <li>浙江</li>
+                                        <li>石家庄</li>
+                                        <li>承德</li>
+                                        <li>山西</li>
+                                        <li>山东</li>
+                                        <li>内蒙古</li>
+                                        <li>甘肃</li>
+                                        <li>宁夏</li>
+                                        <li>西藏</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kuang"> -请选择-</div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/center.js"></script>
 </body>
 
 </html>

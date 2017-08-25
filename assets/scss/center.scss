@@ -1,6 +1,7 @@
 .warp {
     width: 1349px;
-    min-height: 1000px;
+    // min-height: 1032px;//个人信息页高度；
+    min-height: auto; //通讯页高度；
 }
 
 .xuanxiang {
@@ -12,7 +13,7 @@
 
 .jiben {
     width: 200px;
-    height: auto;
+    height: 1032px;
     &>a {
         display: inline-block;
         width: 100%;
@@ -116,7 +117,8 @@
 //右边页面部分
 .content {
     float: left;
-    min-height: 850px;
+    // min-height: 850px;
+    // min-height: 1032px;//个人信息页高度；
     .jibenpage {
         width: 585px;
         height: 812px;
@@ -125,6 +127,7 @@
         padding-left: 50px;
         margin-top: 10px;
         background: #fff;
+        display: none;
         h1 {
             height: 20px;
             line-height: 25px;
@@ -243,8 +246,159 @@
                         margin-left: 20px;
                     }
                 }
-                .xialak {}
+                .xialak {
+                    width: 418px;
+                    height: 50px;
+                    line-height: 50px;
+                    border: 1px solid #E1E5EB;
+                    border-radius: 5px;
+                    margin-bottom: 5px;
+                    clear: both;
+                    span {
+                        margin-left: 29px;
+                        padding-right: 30px;
+                    }
+                    .xialak-wenzi {
+                        display: inline-block;
+                        max-width: 56px;
+                        margin-right: 1%;
+                        height: 19px;
+                        text-align: left;
+                        padding: 6px 12px;
+                        line-height: 1.428;
+                        position: relative;
+                        border-radius: 4px;
+                        border: 1px solid #aaa;
+                        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.75);
+                        input {
+                            width: 0;
+                            height: 0;
+                            background: red;
+                        }
+                    }
+                }
+                .tijiaok {
+                    display: block;
+                    width: 100%;
+                    height: 46px;
+                    line-height: 46px;
+                    font-size: 16px;
+                    color: #fff;
+                    background: #4385F5;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    margin: 20px 0 10px 0;
+                }
             }
         }
     }
+}
+
+// 通讯页
+.tongxun {
+    width: 585px;
+    height: 812px;
+    overflow: visible;
+    float: left;
+    padding-left: 50px;
+    margin-top: 10px;
+    h1 {
+        height: 20px;
+        line-height: 25px;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        font-size: 18px;
+        color: #333;
+        border-left: 2px solid #008AFF;
+        padding-left: 10px;
+    }
+    .shuru {
+        width: 420px;
+        overflow: visible;
+        width: 418px;
+        height: 50px;
+        line-height: 50px;
+        border: 1px solid #E1E5EB;
+        border-radius: 6px;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+        span {
+            margin-left: 20px;
+        }
+        input {
+            border: 0;
+            outline: none;
+            padding-left: 30px;
+        }
+    }
+    // 同上输入是同一个输入框
+    .select {
+        line-height: 50px;
+        span {
+            // display: inline-block;
+            margin-bottom: 6px;
+        }
+        .kuang {
+            position: relative;
+            margin: 9px -24px 0 29px;
+            display: inline-block;
+            width: 111px;
+            height: 32px;
+            border: 1px solid #aaa;
+            background-color: #fff;
+            line-height: 32px;
+            text-align: center;
+            color: #555;
+            border-radius: 4px;
+            .xiala {
+                padding-left: 20px;
+                font-size: 18px;
+            }
+            .xuanx {
+                position: absolute;
+                top: 32px;
+                left: 0;
+                width: 230px;
+                height: 242px;
+                border: 1px solid #5897fb;
+                border-radius: 0 0 4px 4px;
+                box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
+                display: none;
+                //input搜索框
+                .xuanx_ss {
+                    width: 190px;
+                    height: 26px;
+                    border-radius: 4px;
+                    border: 1px solid #aaa;
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .75);
+                    margin-bottom: 5px;
+                }
+                //地区省
+                .xuanxk {
+                    width: 230px;
+                    height: 205px;
+                    overflow: hidden;
+                }
+                ul {
+                    width: 230px;
+                    height: 230px;
+                    overflow: scroll;
+                    li {
+                        width: 203px;
+                        height: 27px;
+                        text-align: left;
+                        padding-left: 10px;
+                        border-radius: 6px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//选择添加颜色
+.xuanxk_color {
+    background-color: #337AB7;
 }
