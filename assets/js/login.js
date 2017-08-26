@@ -1,52 +1,18 @@
-//顶部下拉框
-$(function() {
-
-    $('.header-nav li:eq(0)').mouseenter(function() {
-
-        // $('.tanchuang:animated').toggle();
-        $('.tanchuang').fadeIn();
-        $('.tanchuang').mouseenter(function() {
-            $('.list>li') each(function() {
-                $(this).css('background', '#fff');
-            })
-
+window.onload = function() {
+    // menu1
+    $('.menu1>ul li').mouseover(function() {
+        var index = $(this).index();
+        $(this).addClass('bgcolor').siblings().removeClass('bgcolor');
+        $('.menu1>div ul').eq(index).stop(true, true).fadeIn(800).siblings().hide();
+    })
+    $('.header>ul>li').hover(function() {
+            $(this).find('.menu').stop(true, true).fadeToggle();
         })
-
-
-    });
-
-    $('.header-nav li:eq(1)').mouseenter(function() {
-
-
-        $('.tanchuang1').fadeIn();
-
-
-    });
-
-    $('.header-nav li:eq(2)').mouseenter(function() {
-
-
-        $('.tanchuang2').fadeIn();
-
-
-    });
-    $('.header-nav li:eq(3)').mouseenter(function() {
-
-
-        $('.tanchuang3').fadeIn();
-
-
-    });
-    $('.header-nav li:eq(4)').mouseenter(function() {
-
-        $('.tanchuang4').fadeIn();
-
-
-    });
-
-    $('.header-nav li').mouseleave(function() {
-        $('.aaa').fadeOut(1000);
-    });
-
-
-})
+        // tab
+    $('.tab a').click(function() {
+        var index = $(this).index();
+        $(this).removeClass('bg-fff').siblings().addClass('bg-fff');
+        $('.form form').removeClass('show');
+        $('.form form').eq(index).addClass('show');
+    })
+}

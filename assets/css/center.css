@@ -1,6 +1,7 @@
 .warp {
   width: 1349px;
   min-height: auto;
+  list-style: none;
 }
 
 .xuanxiang {
@@ -136,7 +137,6 @@
   padding-left: 50px;
   margin-top: 10px;
   background: #fff;
-  display: none;
 }
 
 .content .jibenpage h1 {
@@ -202,6 +202,7 @@
   cursor: pointer;
   width: 113%;
   background: #fff;
+  display: none;
 }
 
 .content .jibenpage .touxiang .huantx img {
@@ -214,6 +215,15 @@
   color: #333;
   font-size: 14px;
   font-weight: bold;
+}
+
+.content .jibenpage .zhanghu > h3 {
+  width: 100px;
+  height: 58px;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  padding-bottom: 20px;
 }
 
 .content .jibenpage .zhanghu .zhzhi {
@@ -245,20 +255,22 @@
   margin-left: 10px;
 }
 
-.content .jibenpage .zhanghu .zhzhi .wenben {
-  vertical-align: text-top;
+.content .jibenpage .zhanghu .zhzhi .zhzhi > .wenben {
   font-size: 14px;
+  width: 418px;
+  height: 106px;
 }
 
-.content .jibenpage .zhanghu .zhzhi .wenben span {
-  display: inline-block;
+.content .jibenpage .zhanghu .zhzhi .zhzhi > .wenben span {
+  display: block;
+  width: 126px;
   float: left;
-  width: 30%;
+  height: 30px;
 }
 
-.content .jibenpage .zhanghu .zhzhi .wenben textarea {
+.content .jibenpage .zhanghu .zhzhi .zhzhi > .wenben textarea {
   float: right;
-  width: 68%;
+  width: 284px;
   height: 104px;
   line-height: 26px;
 }
@@ -325,6 +337,7 @@
   float: left;
   padding-left: 50px;
   margin-top: 10px;
+  display: none;
 }
 
 .tongxun h1 {
@@ -383,6 +396,10 @@
   border-radius: 4px;
 }
 
+.tongxun .select .kuang span {
+  margin-left: 0;
+}
+
 .tongxun .select .kuang .xiala {
   padding-left: 20px;
   font-size: 18px;
@@ -415,18 +432,59 @@
   overflow: hidden;
 }
 
-.tongxun .select .kuang .xuanx ul {
+.tongxun .select .kuang .xuanx > ul {
   width: 230px;
   height: 230px;
   overflow: scroll;
 }
 
-.tongxun .select .kuang .xuanx ul li {
+.tongxun .select .kuang .xuanx > ul > li {
   width: 203px;
   height: 27px;
   text-align: left;
   padding-left: 10px;
   border-radius: 6px;
+}
+
+.xuanxk2 {
+  width: 230px;
+  height: 205px;
+  overflow: hidden;
+}
+
+> ul {
+  width: 230px;
+  height: 230px;
+  overflow: scroll;
+}
+
+> ul > li {
+  width: 203px;
+  height: 27px;
+  text-align: left;
+  padding-left: 10px;
+  border-radius: 6px;
+}
+
+.baocun {
+  margin-top: 25px;
+  border: 0;
+  width: 418px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.baocun input {
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  font-size: 16px;
+  color: #fff;
+  border: 0;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #4385F5;
+  cursor: pointer;
 }
 
 .xuanxk_color {

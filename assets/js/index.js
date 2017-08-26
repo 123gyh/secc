@@ -1,53 +1,85 @@
-//选项卡
-var li = document.querySelectorAll('.list>li');
-var active = document.querySelectorAll('.list>li>.actives');
-var len = li.length;
-for (var i = 0; i < len; i++) {
-    li[i].onmouseover = function() {
-        for (var j = 0; j < len; j++) {
-            active[j].style.display = 'none';
-            li[j].className = '';
-        }
-        var index = this.getAttribute('data-index');
-        active[index].style.display = 'block';
-        li[index].className = 'aaa';
+window.onload = function() {
+    // menu1
+    $('.menu1>ul li').mouseover(function() {
+        var index = $(this).index();
+        $(this).addClass('bgcolor').siblings().removeClass('bgcolor');
+        $('.menu1>div ul').eq(index).stop(true, true).fadeIn(800).siblings().hide();
+    })
+    $('.header>ul>li').hover(function() {
+        $(this).find('.menu').stop(true, true).fadeToggle();
+    })
+
+    //slide
+    var index1 = 0,
+        len1 = $('.slide-wrap>ul li').length,
+        timer1 = 0;
+
+    function run() {
+        timer1 = setInterval(function() {
+            lun(function() {
+                index1 = ++index1 > len1 - 1 ? 0 : index1;
+            })
+        }, 3000);
     }
+    run();
+    $('.slide-wrap').mouseover(function() {
+        clearInterval(timer1);
+    }).mouseout(function() {
+        run();
+    });
+    $('.slide-wrap ol li').mouseover(function() {
+        var that = $(this);
+        lun(function() {
+            index1 = that.index();
+        });
+    });
+
+    $('.left').click(function() {
+        lun(function() {
+            index1 = --index1 < 0 ? len1 - 1 : index1;
+        })
+    })
+
+    $('.right').click(function() {
+        lun(function() {
+            index1 = ++index1 > len1 - 1 ? 0 : index1;
+        })
+    })
+
+    function lun(cb) {
+        $('.slide-wrap>ul li').stop(true, true);
+        $('.slide-wrap>ul li').eq(index1).fadeOut(80);
+        $('.slide-wrap ol li').eq(index1).removeClass('active');
+        cb();
+        $('.slide-wrap>ul li').eq(index1).fadeIn(80);
+        $('.slide-wrap ol li').eq(index1).addClass('active');
+    }
+    // slidedown
+    $('.slidedown').hover(function() {
+        $(this).find('h3').stop(true, true).slideToggle(500);
+    });
+    // return top
+    $('.top').click(function() {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 400);
+    })
+
+
+    //get getDate
+    var dateArr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+    function getDate() {
+        var d = new Date(),
+            month = d.getMonth() + 1,
+            date = d.getDate(),
+            day = d.getDay();
+        $('.day-news .month').html(month);
+        $('.day-news .day').html(date);
+        $('.day-news .week').html(dateArr[day]);
+    }
+    getDate();
+    setInterval(function() {
+        getDate();
+    }, 1000)
 }
-// 顶部弹窗
-//顶部下拉框
-$(function() {
-
-    $('.header-nav li:eq(0)').mouseenter(function() {
-
-        $('.tanchuang:animated').toggle();
-        $('.tanchuang').slideDown();
-
-    });
-
-    $('.header-nav li:eq(1)').mouseenter(function() {
-
-        $('.tanchuang2:animated').toggle();
-        $('.tanchuang2').slideDown();
-
-    });
-
-    $('.header-nav li:eq(2)').mouseenter(function() {
-
-        $('.tanchuang3:animated').toggle();
-        $('.tanchuang3').slideDown();
-
-    });
-    $('.header-nav li:eq(3)').mouseenter(function() {
-
-        $('.tanchuang4:animated').toggle();
-        $('.tanchuang4').slideDown();
-
-    });
-
-    $('.header-nav ul li').mouseleave(function() {
-        console.log(1223);
-        $('.aaa').slideUp();
-    });
-
-
-})

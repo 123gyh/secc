@@ -1,446 +1,521 @@
-.warp {
-    margin: 0 auto;
-    padding: 0;
-    width: 1198px;
-    min-height: 550px;
-    overflow: hidden;
+#container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.none {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.bgcolor {
+  background-color: #fff;
 }
 
 body {
-    margin: 0 auto;
-    background: url("../imageslogin/dbj.jpg")no-repeat center top rgb(36, 98, 135);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  background: url(../images/reg.jpg) center top no-repeat #246287;
 }
 
-.header-main {
-    overflow: hidden;
-    width: 100%;
-    background: #fff;
-    height: 89px;
-    line-height: 89px;
-    text-align: center;
-    border-bottom: 1px solid #F5F5F5;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    z-index: 99;
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 89px;
+  background-color: #fff;
+  border-bottom: 1px solid #F5F5F5;
 }
 
-.header-log {
-    float: left;
-    margin: 20px 25px 0 124px;
+header .header {
+  position: relative;
+  width: 1080px;
+  height: 89px;
+  margin: 0 auto;
 }
 
-.header-nav {
-    float: left;
-    width: 600px;
-    height: 90px;
-    position: relative;
+header .header > a {
+  float: left;
+  margin-top: 20px;
+  margin-right: 25px;
 }
 
-.header-nav li {
-    display: inline-block;
-    position: relative;
-    margin-right: 10px;
-    font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", 微软雅黑, STHeiti, "WenQuanYi Micro Hei", SimSun, sans-serif;
-    font-size: 14px;
-    color: #8A929F;
-    cursor: pointer;
+header .header > ul {
+  float: left;
+  line-height: 89px;
 }
 
-.header-nav li .iconfont {
-    font-size: 16px;
-    color: #bec5cf;
+header .header > ul > li {
+  display: inline-block;
+  margin-right: 10px;
 }
 
-#header-seach {
-    float: right;
-    margin-right: 100px;
+header .header > ul > li a {
+  color: #8a929f;
 }
 
-#header-seach .find {
-    float: left;
-    margin-top: 28px;
-    width: 200px;
-    height: 35px;
-    border: 1px solid #E6E7EB;
+header .header > ul > li .iconfont {
+  font-size: 12px;
+  color: #bec5cf;
 }
 
-#header-seach .find input {
-    float: left;
-    width: 50px;
-    height: 30px;
-    border: none;
-    margin-left: 12px;
+header .header > ul .menu1 {
+  position: absolute;
+  top: 88px;
+  left: 0;
+  z-index: 9999;
+  width: 920px;
+  height: 280px;
+  background-color: #fff;
+  border: 1px #cecece solid;
 }
 
-#header-seach .find i .iconfont {
-    font-size: 24px;
-    color: #bec5cf;
+header .header > ul .menu1 span {
+  position: absolute;
+  top: -11px;
+  left: 250px;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+  background: url(../images/jiantou.png);
 }
 
-.find-img {
-    float: left;
-    width: 35px;
-    height: 35px;
-    margin: 25px 0 0 40px;
-    border-radius: 50%;
+header .header > ul .menu1 > ul {
+  float: left;
+  width: 200px;
+  height: 260px;
+  padding-top: 20px;
+  background-color: #f4f4f4;
 }
 
-
-/*二级菜单*/
-
-
-/*一*/
-
-.tanchuang {
-    position: absolute;
-    top: 88px;
-    left: 150px;
-    width: 920px;
-    height: 280px;
-    background: #fff;
-    z-index: 999;
-    border: 1px #CECECE solid;
-    /*display: none;*/
+header .header > ul .menu1 > ul li {
+  line-height: 40px;
+  text-align: center;
 }
 
-.sanjiao {
-    position: absolute;
-    top: -11px;
-    left: 269px;
-    z-index: 999;
+header .header > ul .menu1 div {
+  position: relative;
+  float: left;
+  width: 690px;
+  height: 228px;
+  padding-left: 15px;
 }
 
-.list {
-    width: 200px;
-    background: #f4f4f4;
-    text-align: center;
-    padding-top: 20px;
-    height: 260px;
+header .header > ul .menu1 div img {
+  display: block;
+  width: 210px;
+  height: 132px;
+  margin-left: 10px;
 }
 
-.list>li {
-    height: 40px;
-    line-height: 40px;
-    font-size: 14px;
-    text-align: center;
-    width: 200px;
-    color: #707070;
+header .header > ul .menu1 div ul {
+  position: absolute;
+  top: 0;
+  left: 15px;
 }
 
-.list .actives {
-    position: absolute;
-    top: 0;
-    left: 210px;
-    width: 690px;
-    height: 212px;
+header .header > ul .menu1 div ul li {
+  float: left;
+  width: 230px;
+  padding-top: 30px;
 }
 
-.list>li>ul {
-    display: none;
+header .header > ul .menu1 div ul li h4 {
+  width: 210px;
+  line-height: 16px;
+  font-size: 12px;
+  text-align: left;
+  margin: 0 auto;
+  padding-top: 18px;
 }
 
-.list>li .first-ul {
-    display: block;
+header .header > ul .menu2 {
+  position: absolute;
+  top: 88px;
+  left: 175px;
+  z-index: 9999;
+  width: 300px;
+  height: 185px;
+  background-color: #fff;
+  border: 1px #cecece solid;
 }
 
-.actives li {
-    float: left;
+header .header > ul .menu2 > span {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+  background: url(../images/jiantou.png);
 }
 
-.actives li img {
-    width: 210px;
-    height: 132px;
-    margin: 30px 10px 0 10px;
+header .header > ul .menu2 li {
+  height: 92px;
+  border-bottom: 1px #e8ecf5 solid;
+  overflow: hidden;
 }
 
-.actives li h4 {
-    font-size: 12px;
-    color: #333;
-    width: 210px;
-    margin: 0 auto;
-    padding-top: 5px;
-    line-height: 16px;
-    text-align: left;
-    font-weight: normal;
+header .header > ul .menu2 li a {
+  display: block;
+  width: 190px;
+  height: 48px;
+  font-size: 18px;
+  line-height: 24px;
+  color: #C5C5C5;
+  padding-left: 110px;
+  margin-top: 25px;
+  background: url("../images/nogreen.gif") no-repeat 40px 5px;
 }
 
-.tanchuang .aaa {
-    background-color: #fff;
+header .header > ul .menu2 li a span {
+  font-weight: bold;
+  letter-spacing: 3px;
 }
 
-
-/*第二个*/
-
-.tanchuang2 {
-    width: 300px;
-    height: auto;
-    position: absolute;
-    background: #fff;
-    border: 1px #CECECE solid;
-    display: none;
-    top: 90px;
-    left: 359px;
-    z-index: 9999;
+header .header > ul .menu2 li a p {
+  font-size: 14px;
+  letter-spacing: 5px;
 }
 
-.sanjiao1 {
-    position: absolute;
-    top: -13px;
-    left: 30px;
-    padding-left: 100px;
+header .header > ul .menu2 li a:hover {
+  color: #46ca71;
+  background: url("../images/green.gif") no-repeat 40px 5px;
 }
 
-.tan1 {
-    width: 300px;
-    height: 92px;
-    border-bottom: 1px #E8ECF5 solid;
+header .header > ul .menu3 {
+  position: absolute;
+  top: 88px;
+  left: 295px;
+  width: 200px;
+  height: 163px;
+  border: 1px #cecece solid;
+  background-color: #fff;
 }
 
-.tan1 .yanjing {
-    display: block;
-    background: url("../images/tan21.gif") no-repeat 27px 3px;
-    font-size: 42px;
-    color: #C5C5C5;
-    height: 48px;
-    margin-top: 20px;
-    padding-left: 100px;
-    vertical-align: middle;
+header .header > ul .menu3 span {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+  background: url(../images/jiantou.png);
 }
 
-.yanjing span {
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 3px;
+header .header > ul .menu3 li {
+  text-align: center;
+  line-height: 40px;
+  border-bottom: 1px #e8ecf5 solid;
 }
 
-.yanjing small {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 5px;
-    color: #C5C5C5;
-    font-weight: bold;
+header .header > ul .menu3 li a {
+  color: #707070;
 }
 
-
-/*第三个*/
-
-.tanchuang3 {
-    width: 200px;
-    position: absolute;
-    background: #fff;
-    border: 1px #CECECE solid;
-    top: 88px;
-    left: 462px;
-    z-index: 99999;
-    display: none;
+header .header > ul .menu3 li:hover {
+  background-color: #f5f5f5;
 }
 
-.sanjiao2 {
-    position: absolute;
-    top: -13px;
-    left: -14px;
-    padding-left: 100px;
+header .header > ul .menu3 li:hover a {
+  color: gray;
 }
 
-.tanchuang3 ul li {
-    text-align: center;
-    font-size: 14px;
-    line-height: 40px;
-    border-bottom: 1px #E8ECF5 solid;
+header .header > ul .menu4 {
+  left: 340px;
+  height: 122px;
 }
 
-.tanchuang3 ul li a {
-    color: #707070;
-    font-size: 14px;
-    line-height: 40px;
+header .header .head-search {
+  float: right;
+  width: 170px;
+  height: 30px;
+  margin-top: 28px;
+  border: 1px solid #E6E7EB;
 }
 
-
-/*第四个*/
-
-.tanchuang4 {
-    width: 200px;
-    position: absolute;
-    background: #fff;
-    border: 1px #CECECE solid;
-    top: 88px;
-    left: 504px;
-    z-index: 9999;
-    display: none;
+header .header .head-search input {
+  float: left;
+  width: 130px;
+  height: 30px;
+  padding-left: 12px;
 }
 
-.sanjiao3 {
-    position: absolute;
-    top: -13px;
-    left: -11px;
-    padding-left: 100px;
+header .header .head-search i {
+  float: left;
+  width: 24px;
+  height: 30px;
+  color: #bec5cf;
+  line-height: 30px;
+  font-weight: 800;
+  cursor: pointer;
 }
 
-.tanchuang4 ul li {
-    text-align: center;
-    font-size: 14px;
-    line-height: 40px;
-    border-bottom: 1px #E8ECF5 solid;
+header .header .login {
+  position: relative;
+  float: right;
+  margin-top: 25px;
+  margin-left: 20px;
 }
 
-.tanchuang4 ul li a {
-    color: #707070;
-    font-size: 14px;
-    line-height: 40px;
+header .header .login:hover .menu {
+  display: block;
 }
 
-
-/********************************/
-
-
-/*主体部分*/
-
-.main-more {
-    width: 390px;
-    height: 504px;
-    margin: 0 auto;
-    overflow: visible;
-    margin-top: 120px;
+header .header .login > img {
+  width: 35px;
+  height: 35px;
+  padding: 0 5px;
+  border-radius: 50%;
 }
 
-.main-more p {
-    width: 390px;
-    line-height: 92px;
-    text-align: center;
-    font-size: 28px;
-    color: #fff;
-    line-height: 92px;
-    text-align: center;
+header .header .login div {
+  position: absolute;
+  top: 45px;
+  left: -140px;
+  width: 176px;
+  height: 143px;
+  padding-bottom: 10px;
+  border: 1px #CECECE solid;
+  background-color: #fff;
 }
 
-.main-more span {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #fff;
+header .header .login div img {
+  float: left;
+  width: 40px;
+  margin: 15px 10px 15px 20px;
 }
 
-.main-more ul {
-    height: 40px;
-    /*text-align: center;*/
+header .header .login div h3 {
+  float: left;
+  line-height: 70px;
 }
 
-.main-more ul li a {
-    display: block;
-    float: left;
-    margin: 0 8px;
-    height: 38px;
-    width: 38px;
+header .header .login div ul {
+  width: 136px;
+  margin: 0 auto;
+  clear: both;
 }
 
-.huo {
-    clear: both;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    background: url(../imageslogin/z7.png) no-repeat;
-    color: #fff;
-    font-size: 14px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+header .header .login div ul li {
+  line-height: 36px;
+  border-top: 1px #ddd solid;
 }
 
-.danger {
-    clear: both;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    border-radius: 6px;
-    margin-bottom: 20px;
+header .header .login div ul li a {
+  color: #707070;
 }
 
-#table {
-    width: 100%;
-    height: 46px;
-    margin-bottom: 15px;
+header .header .login div ul li a:hover {
+  color: #4385f5;
 }
 
-#table ul li {
-    float: left;
-    height: 44px;
-    width: 127px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #e6e6e6;
-    opacity: .65;
+header .header .login span {
+  position: absolute;
+  top: 35px;
+  left: 16px;
+  width: 22px;
+  height: 11px;
+  margin-left: -11px;
+  background: url(../images/jiantou.png);
 }
 
-#table ul li:hover {
-    opacity: 1;
+main {
+  width: 390px;
+  height: 502px;
+  color: #fff;
+  margin: 0 auto;
+  margin-top: 120px;
 }
 
-#table> .white {
-    background-color: #fff;
+main .tabName {
+  line-height: 92px;
+  font-size: 28px;
+  text-align: center;
 }
 
-#table ul li a {
-    width: 96px;
-    padding: 10px 16px;
-    font-size: 18px;
-    color: #707070;
+main > p {
+  margin-bottom: 10px;
 }
 
-.tijiao {
-    clear: both;
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    background: #fff;
-    /*background: url(../images/z_5.png) no-repeat;*/
-    margin-bottom: 5px;
-    border-radius: 6px;
+main .logoImg {
+  height: 40px;
 }
 
-.tijiao span {
-    float: left;
-    width: 25%;
-    margin-left: 5px;
-    text-align: center;
-    font-size: 16px;
-    color: #333;
-    background: #fff;
+main .logoImg li {
+  float: left;
+  width: 45.5px;
+  height: 38px;
+  padding-left: 7.5px;
 }
 
-.tijiao input {
-    float: left;
-    font-size: 14px;
-    width: 70%;
-    height: 50px;
-    line-height: 50px;
-    border: 0px;
-    outline: none;
-    padding: 0 0;
-    color: #999;
+main .split {
+  clear: both;
+  line-height: 20px;
+  text-align: center;
+  margin: 15px 0;
+  background: url(../images/reg-line.png) no-repeat;
 }
 
-.denglu {
-    width: 100%;
-    margin: 15px 0px;
-    height: 46px;
-    line-height: 16px;
-    text-align: center;
-    border: 0;
-    background: url(../imageslogin/z6.png) no-repeat;
+main .tab {
+  height: 45px;
+  margin-bottom: 15px;
 }
 
-.wangji {
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    color: #fff;
-    letter-spacing: 5px;
+main .tab .bg-fff {
+  background-color: #fff;
+  opacity: 1;
 }
 
-.wangji a {
-    font-size: 14px;
-    color: #fff;
+main .tab a {
+  float: left;
+  width: 161px;
+  height: 23px;
+  font-size: 18px;
+  text-align: center;
+  color: #707070;
+  border-radius: 6px;
+  padding: 10px 16px;
+  background-color: #fff;
+  opacity: .6;
+  border: 1px solid #ccc;
+}
+
+main .tab a:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+main .tab a:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+main .tab a:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  opacity: 1;
+}
+
+main .form {
+  width: 1000px;
+  color: #333;
+  font-size: 16px;
+}
+
+main .form .Validform_checktip {
+  width: 120px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+main .form .Validform_right {
+  text-indent: -9999px;
+}
+
+main .form .Validform_wrong,
+main .form .Validform_error {
+  background-color: transparent;
+}
+
+main .form .show {
+  display: block;
+}
+
+main .form form {
+  display: none;
+}
+
+main .form form > div {
+  height: 50px;
+  line-height: 50px;
+  margin-bottom: 6.5px;
+  background: url(../images/input.png) no-repeat;
+}
+
+main .form form > div input {
+  width: 273px;
+  color: #999;
+}
+
+main .form form > div .msg {
+  width: 172px;
+}
+
+main .form form > div .msg + a {
+  color: #707070;
+  font-size: 14px;
+}
+
+main .form form > div .msg + a:hover {
+  color: #333;
+}
+
+main .form form > div span {
+  display: inline-block;
+  width: 97px;
+  text-align: center;
+}
+
+main .form form .test {
+  position: relative;
+}
+
+main .form form .test > div {
+  position: absolute;
+  top: 11px;
+  left: 82px;
+  width: 261px;
+  height: 28px;
+  line-height: 28px;
+  background: url(../images/test.png) no-repeat;
+}
+
+main .form form .test > div span {
+  position: absolute;
+  top: -9px;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: url(../images/test.png) no-repeat 0 -84px;
+}
+
+main .form form .test > div i {
+  position: absolute;
+  top: 2px;
+  right: -35px;
+  width: 26px;
+  height: 26px;
+  background: url(../images/test.png) no-repeat 0 -1152.5px;
+}
+
+main .form form > input {
+  width: 390px;
+  height: 46px;
+  color: #fff;
+  font-size: 20px;
+  margin: 15px 0;
+  background: url(../images/submit.png);
+}
+
+main .link {
+  line-height: 50px;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 5px;
+}
+
+main .link a {
+  color: #fff;
+}
+
+main .link a:hover {
+  text-decoration: underline;
 }

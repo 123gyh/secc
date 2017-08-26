@@ -2,6 +2,7 @@
     width: 1349px;
     // min-height: 1032px;//个人信息页高度；
     min-height: auto; //通讯页高度；
+    list-style: none;
 }
 
 .xuanxiang {
@@ -127,7 +128,7 @@
         padding-left: 50px;
         margin-top: 10px;
         background: #fff;
-        display: none;
+        // display: none;
         h1 {
             height: 20px;
             line-height: 25px;
@@ -185,6 +186,7 @@
                 cursor: pointer;
                 width: 113%;
                 background: #fff;
+                display: none;
                 img {
                     width: 60px;
                     // vertical-text: middle;
@@ -198,6 +200,14 @@
             color: #333;
             font-size: 14px;
             font-weight: bold;
+            >h3 {
+                width: 100px;
+                height: 58px;
+                color: #333;
+                font-size: 14px;
+                font-weight: bold;
+                padding-bottom: 20px;
+            }
             .zhzhi {
                 width: 420px;
                 overflow: visible;
@@ -223,17 +233,20 @@
                         margin-left: 10px;
                     }
                 }
-                .wenben {
-                    vertical-align: text-top;
+                .zhzhi >.wenben {
+                    // vertical-align: text-top;
                     font-size: 14px;
+                    width: 418px;
+                    height: 106px;
                     span {
-                        display: inline-block;
+                        display: block;
+                        width: 126px;
                         float: left;
-                        width: 30%;
+                        height: 30px;
                     }
                     textarea {
                         float: right;
-                        width: 68%;
+                        width: 284px;
                         height: 104px;
                         line-height: 26px;
                     }
@@ -303,6 +316,7 @@
     float: left;
     padding-left: 50px;
     margin-top: 10px;
+    display: none;
     h1 {
         height: 20px;
         line-height: 25px;
@@ -352,6 +366,9 @@
             text-align: center;
             color: #555;
             border-radius: 4px;
+            span {
+                margin-left: 0;
+            }
             .xiala {
                 padding-left: 20px;
                 font-size: 18px;
@@ -381,11 +398,11 @@
                     height: 205px;
                     overflow: hidden;
                 }
-                ul {
+                &>ul {
                     width: 230px;
                     height: 230px;
                     overflow: scroll;
-                    li {
+                    >li {
                         width: 203px;
                         height: 27px;
                         text-align: left;
@@ -395,6 +412,46 @@
                 }
             }
         }
+    }
+}
+
+//市区
+.xuanxk2 {
+    width: 230px;
+    height: 205px;
+    overflow: hidden;
+}
+
+>ul {
+    width: 230px;
+    height: 230px;
+    overflow: scroll;
+    >li {
+        width: 203px;
+        height: 27px;
+        text-align: left;
+        padding-left: 10px;
+        border-radius: 6px;
+    }
+}
+
+.baocun {
+    margin-top: 25px;
+    border: 0;
+    width: 418px;
+    height: 50px;
+    line-height: 50px;
+    input {
+        width: 100%;
+        height: 46px;
+        line-height: 46px;
+        font-size: 16px;
+        color: #fff;
+        border: 0;
+        border-radius: 5px;
+        font-weight: bold;
+        background-color: #4385F5;
+        cursor: pointer;
     }
 }
 
